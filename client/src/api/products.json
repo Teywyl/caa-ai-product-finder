@@ -1,0 +1,35 @@
+[
+  {
+    "id": "product-1",
+    "name": "Honda Cabin Filter",
+    "part_number": "80292-SDA-A01",
+    "category": "Cabin Filter",
+    "brand": "Honda",
+    "model": "Civic FD",
+    "year_start": 2006,
+    "year_end": 2011,
+    "description": "Sample listing. Confirm exact vehicle fitment before use."
+  },
+  {
+    "id": "product-2",
+    "name": "Hyundai Cabin Filter",
+    "part_number": "97133-07000",
+    "category": "Cabin Filter",
+    "brand": "Hyundai",
+    "model": "i10",
+    "year_start": 2008,
+    "year_end": 2026,
+    "description": "Sample listing. Confirm exact vehicle fitment before use."
+  },
+  {
+    "id": "product-3",
+    "name": "Nissan Urvan Cabin Filter",
+    "part_number": "27891-3YF0A",
+    "category": "Cabin Filter",
+    "brand": "Nissan",
+    "model": "Urvan NV350",
+    "year_start": 2012,
+    "year_end": 2026,
+    "description": "Sample listing. Confirm exact vehicle fitment before use."
+  }
+]

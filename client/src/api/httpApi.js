@@ -38,3 +38,5 @@ export const updateSighting = (id, input) =>
 
 export const deleteSighting = (id) =>
   request(`/api/sightings/${id}`, { method: 'DELETE' })
+
+export const listProducts = () => request('/api/products')

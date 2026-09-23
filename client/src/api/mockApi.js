@@ -9,6 +9,7 @@
 // project. See content/extending-your-app page 3.
 
 import seed from './seed.json'
+import products from './products.json'
 
 const KEY = 'final-project:sightings'
 
@@ -72,4 +73,9 @@ export async function updateSighting(id, input) {
 export async function deleteSighting(id) {
   await delay()
   write(read().filter((row) => String(row.id) !== String(id)))
+}
+
+export async function listProducts() {
+  await delay()
+  return products.slice().sort((a, b) => a.name.localeCompare(b.name))
 }
