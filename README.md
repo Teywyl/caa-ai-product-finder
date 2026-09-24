@@ -9,6 +9,8 @@ CAA AI Product Finder is a web app for Cabalen Auto Aircon users to browse car a
 
 > **This site is running in demo mode.** It displays sample products bundled with the React client. The product API and PostgreSQL database are not connected yet. The vehicle information is sample data and must be verified before use.
 
+![CAA AI Product Finder showing sample products](docs/screenshot.png)
+
 ## What it does
 
 - Displays three sample car air-conditioning products.
