@@ -38,18 +38,19 @@ The completed project is intended to connect the React client, an Express produc
 
 ## Running it yourself
 
-From the repository root, run the client in demo mode:
+Install Node.js, which includes npm. In a terminal, clone the repository and start the client:
 
 ```bash
-cd client
+git clone https://github.com/Teywyl/caa-ai-product-finder.git
+cd caa-ai-product-finder/client
 npm install
 cp .env.example .env
 npm run dev
 ```
 
-Open the local address printed by Vite. To check the production build, run `npm run build` inside `client/`.
+Open the local address Vite prints, usually `http://localhost:5173/`. You should see **CAA AI Product Finder**, a demo notice, and sample product cards. Select **View details** on a card to see more information.
 
-The existing server is still template starter code, so its sightings routes do not serve the product list shown on the client.
+The demo uses bundled sample products and does not need a database. The server still has the template's sightings routes; the product API and PostgreSQL setup are not ready yet. To check the client build, run `npm run build` inside `client/`.
 
 ## Environment variables
 
