@@ -88,7 +88,7 @@ The browser loads the React client from GitHub Pages. In the current demo, the c
 
 ## Author
 
-Wylengco, Teyshaun Zell R. | GitHub: https://github.com/Teywyl | BSCS, CS-403
+Teywyl | GitHub: https://github.com/Teywyl | BSCS, CS-403
 
 ## AI use
 
