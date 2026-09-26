@@ -1,35 +1,222 @@
 [
   {
     "id": "product-1",
-    "name": "Honda Cabin Filter",
+    "name": "Honda Civic FD Cabin Filter",
     "part_number": "80292-SDA-A01",
     "category": "Cabin Filter",
     "brand": "Honda",
     "model": "Civic FD",
     "year_start": 2006,
     "year_end": 2011,
-    "description": "Sample listing. Confirm exact vehicle fitment before use."
+    "description": "Sample product. Confirm the part number and exact vehicle fitment before use."
   },
   {
     "id": "product-2",
-    "name": "Hyundai Cabin Filter",
+    "name": "Hyundai i10 Cabin Filter",
     "part_number": "97133-07000",
     "category": "Cabin Filter",
     "brand": "Hyundai",
     "model": "i10",
     "year_start": 2008,
-    "year_end": 2026,
-    "description": "Sample listing. Confirm exact vehicle fitment before use."
+    "year_end": null,
+    "description": "Sample product. Confirm the part number and exact vehicle fitment before use."
   },
   {
     "id": "product-3",
-    "name": "Nissan Urvan Cabin Filter",
+    "name": "Nissan Urvan NV350 Cabin Filter",
     "part_number": "27891-3YF0A",
     "category": "Cabin Filter",
     "brand": "Nissan",
     "model": "Urvan NV350",
     "year_start": 2012,
-    "year_end": 2026,
-    "description": "Sample listing. Confirm exact vehicle fitment before use."
+    "year_end": null,
+    "description": "Sample product. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-4",
+    "name": "Suzuki Ertiga Cabin Filter",
+    "part_number": 95850M79M00-00,
+    "category": "Cabin Filter",
+    "brand": "Suzuki",
+    "model": "Ertiga",
+    "year_start": 2014,
+    "year_end": 2018,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-5",
+    "name": "Nissan Terra Cabin Filter",
+    "part_number": 27277-4JA0A,
+    "category": "Cabin Filter",
+    "brand": "Nissan",
+    "model": "Terra",
+    "year_start": 2018,
+    "year_end": null,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-6",
+    "name": "Mitsubishi Montero Gen 2 Compressor",
+    "part_number": 815151,
+    "category": "Compressor",
+    "brand": "Mitsubishi",
+    "model": "Montero Gen 2",
+    "year_start": null,
+    "year_end": null,
+    "description": "Shop listing sample. Confirm the compressor variation and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-7",
+    "name": "Toyota Vios Gen 2 Compressor",
+    "part_number": 447160-1761,
+    "category": "Compressor",
+    "brand": "Toyota",
+    "model": "Vios Gen 2",
+    "year_start": 2007,
+    "year_end": 2013,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-8",
+    "name": "Toyota Vios Gen 3 Compressor",
+    "part_number": 10sRE11C,
+    "category": "Compressor",
+    "brand": "Toyota",
+    "model": "Vios Gen 3",
+    "year_start": 2017,
+    "year_end": null,
+    "description": "Shop listing mentions 10sRE11C Denso. Confirm the actual part number and fitment before use."
+  },
+  {
+    "id": "product-9",
+    "name": "Toyota Vios Gen 1 Compressor",
+    "part_number": 10S11C,
+    "category": "Compressor",
+    "brand": "Toyota",
+    "model": "Vios Gen 1",
+    "year_start": 2002,
+    "year_end": 2007,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-10",
+    "name": "Toyota Wigo Gen 1 Compressor",
+    "part_number": 10SA11C,
+    "category": "Compressor",
+    "brand": "Toyota",
+    "model": "Wigo Gen 1",
+    "year_start": null,
+    "year_end": null,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-11",
+    "name": "Toyota Hiace Rear Evaporator",
+    "part_number": "88501-26270",
+    "category": "Evaporator",
+    "brand": "Toyota",
+    "model": "Hiace",
+    "year_start": 2005,
+    "year_end": 2019,
+    "description": "Rear evaporator. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-12",
+    "name": "Honda City GM2 Evaporator",
+    "part_number": "80211-TF0-G01",
+    "category": "Evaporator",
+    "brand": "Honda",
+    "model": "City GM2",
+    "year_start": 2009,
+    "year_end": 2013,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-13",
+    "name": "Suzuki Jimny Evaporator",
+    "part_number": "95411-77RC0",
+    "category": "Evaporator",
+    "brand": "Suzuki",
+    "model": "Jimny",
+    "year_start": 2021,
+    "year_end": 2024,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-14",
+    "name": "Hyundai Accent 4th Gen Evaporator",
+    "part_number": "97139-1R010",
+    "category": "Evaporator",
+    "brand": "Hyundai",
+    "model": "Accent 4th Gen",
+    "year_start": 2012,
+    "year_end": 2017,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-15",
+    "name": "Nissan NP300 Evaporator",
+    "part_number": "27280-4KH0A",
+    "category": "Evaporator",
+    "brand": "Nissan",
+    "model": "NP300 EL",
+    "year_start": 2016,
+    "year_end": null,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-16",
+    "name": "Toyota Innova Front Blower Motor",
+    "part_number": "87103-0K091",
+    "category": "Blower Motor",
+    "brand": "Toyota",
+    "model": "Innova",
+    "year_start": 2005,
+    "year_end": 2015,
+    "description": "Front blower assembly. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-17",
+    "name": "Chevrolet Trailblazer Rear Blower Motor",
+    "part_number": null,
+    "category": "Blower Motor",
+    "brand": "Chevrolet",
+    "model": "Trailblazer",
+    "year_start": 2012,
+    "year_end": 2021,
+    "description": "Rear blower assembly. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-18",
+    "name": "Honda City GM Blower Motor",
+    "part_number": "79310-TM0-G01",
+    "category": "Blower Motor",
+    "brand": "Honda",
+    "model": "City GM",
+    "year_start": 2009,
+    "year_end": 2014,
+    "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
+  },
+  {
+    "id": "product-19",
+    "name": "Nissan Navara Blower Motor",
+    "part_number": "27226-EA01A",
+    "category": "Blower Motor",
+    "brand": "Nissan",
+    "model": "Navara",
+    "year_start": 2010,
+    "year_end": 2010,
+    "description": "The listing names a 2010 Navara; other compatible years have not been confirmed."
+  },
+  {
+    "id": "product-20",
+    "name": "Toyota Wigo Gen 1 and Gen 2 Blower Motor",
+    "part_number": "88550-BZ404",
+    "category": "Blower Motor",
+    "brand": "Toyota",
+    "model": "Wigo",
+    "year_start": null,
+    "year_end": null,
+    "description": "The listing names Wigo Gen 1 and Gen 2 without exact years. Confirm fitment before use."
   }
 ]
