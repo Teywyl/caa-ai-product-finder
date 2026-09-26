@@ -1,7 +1,3 @@
-I am building CAA AI Product Finder with AI assistance. This is a continuing record of what I asked, what I used, and what I changed.
-
-## 1. How I used AI
-
 # AI usage
 
 I used ChatGPT while building CAA AI Product Finder. It helped me plan changes, suggested code, explained why files needed to change, and guided me through errors and deployment. I made the changes in Codespaces and checked the results myself. I used the explanations to learn how the React client, API files, build, and GitHub Pages deployment work together.
