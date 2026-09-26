@@ -1,5 +1,3 @@
-# AI usage
-
 I am building CAA AI Product Finder with AI assistance. This is a continuing record of what I asked, what I used, and what I changed.
 
 ## 1. How I used AI
