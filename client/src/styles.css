@@ -76,7 +76,7 @@ form.card { display: flex; flex-direction: column; gap: .35rem; }
 
 label { font-size: .85rem; color: var(--muted); margin-top: .5rem; }
 
-input, textarea {
+input, textarea, select {
   font: inherit;
   color: inherit;
   background: var(--bg);
@@ -84,6 +84,15 @@ input, textarea {
   border-radius: .35rem;
   padding: .5rem .6rem;
 }
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: .75rem;
+}
+
+.filters label { display: block; margin-top: 0; }
+.filters input, .filters select { width: 100%; margin-top: .25rem; }
 
 button {
   font: inherit;

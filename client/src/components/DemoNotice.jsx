@@ -12,12 +12,10 @@ export default function DemoNotice() {
 
   return (
     <div className="demo-notice" role="status">
-      <strong>Demo mode.</strong> This deployment exists to show the interface.
-      It runs on a <strong>simulated backend</strong>: everything you add is
-      stored in your own browser, is shared with nobody, and disappears when you
-      clear your browsing data. There is no server and no database behind this
-      page. The full version runs against an Express API and a PostgreSQL
-      database, deployed separately. See the README.
+      <strong>Demo mode.</strong> These are sample products bundled with the app.
+      Filtering happens in your browser; products cannot be added or edited here.
+      The product API and PostgreSQL database are not connected yet. Confirm
+      exact vehicle fitment before using a product.
     </div>
   )
 }
