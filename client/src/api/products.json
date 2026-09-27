@@ -57,7 +57,7 @@
   {
     "id": "product-6",
     "name": "Mitsubishi Montero Gen 2 Compressor",
-    "part_number": 815151,
+    "part_number": "815151",
     "category": "Compressor",
     "brand": "Mitsubishi",
     "model": "Montero Gen 2",
@@ -68,7 +68,7 @@
   {
     "id": "product-7",
     "name": "Toyota Vios Gen 2 Compressor",
-    "part_number": 447160-1761,
+    "part_number": "447160-1761",
     "category": "Compressor",
     "brand": "Toyota",
     "model": "Vios Gen 2",
@@ -178,7 +178,7 @@
   {
     "id": "product-17",
     "name": "Chevrolet Trailblazer Rear Blower Motor",
-    "part_number": null,
+    "part_number": "8-98139427-0",
     "category": "Blower Motor",
     "brand": "Chevrolet",
     "model": "Trailblazer",
