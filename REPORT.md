@@ -62,7 +62,6 @@ The server still uses the template’s sightings routes and database tables. It 
 
 ## What is left
 
-- Complete the security checklist.
 - Verify the product information and expand the catalog to 50 products.
 - Add category filtering and improve the product details display.
 - Create the product API and PostgreSQL tables, then deploy and connect them to the client.
