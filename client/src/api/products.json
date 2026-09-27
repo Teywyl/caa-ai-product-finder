@@ -18,7 +18,7 @@
     "brand": "Hyundai",
     "model": "i10",
     "year_start": 2008,
-    "year_end": null,
+    "year_end": 2017,
     "description": "Sample product. Confirm the part number and exact vehicle fitment before use."
   },
   {
@@ -29,13 +29,13 @@
     "brand": "Nissan",
     "model": "Urvan NV350",
     "year_start": 2012,
-    "year_end": null,
+    "year_end": 2026,
     "description": "Sample product. Confirm the part number and exact vehicle fitment before use."
   },
   {
     "id": "product-4",
     "name": "Suzuki Ertiga Cabin Filter",
-    "part_number": 95850M79M00-00,
+    "part_number": "95850M79M00-00",
     "category": "Cabin Filter",
     "brand": "Suzuki",
     "model": "Ertiga",
@@ -46,12 +46,12 @@
   {
     "id": "product-5",
     "name": "Nissan Terra Cabin Filter",
-    "part_number": 27277-4JA0A,
+    "part_number": "27277-4JA0A",
     "category": "Cabin Filter",
     "brand": "Nissan",
     "model": "Terra",
     "year_start": 2018,
-    "year_end": null,
+    "year_end": 2026,
     "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
   },
   {
@@ -61,8 +61,8 @@
     "category": "Compressor",
     "brand": "Mitsubishi",
     "model": "Montero Gen 2",
-    "year_start": null,
-    "year_end": null,
+    "year_start": 2008,
+    "year_end": 2014  ,
     "description": "Shop listing sample. Confirm the compressor variation and exact vehicle fitment before use."
   },
   {
@@ -79,18 +79,18 @@
   {
     "id": "product-8",
     "name": "Toyota Vios Gen 3 Compressor",
-    "part_number": 10sRE11C,
+    "part_number": "10sRE11C",
     "category": "Compressor",
     "brand": "Toyota",
     "model": "Vios Gen 3",
     "year_start": 2017,
-    "year_end": null,
+    "year_end": 2021,
     "description": "Shop listing mentions 10sRE11C Denso. Confirm the actual part number and fitment before use."
   },
   {
     "id": "product-9",
     "name": "Toyota Vios Gen 1 Compressor",
-    "part_number": 10S11C,
+    "part_number": "10S11C"
     "category": "Compressor",
     "brand": "Toyota",
     "model": "Vios Gen 1",
@@ -101,12 +101,12 @@
   {
     "id": "product-10",
     "name": "Toyota Wigo Gen 1 Compressor",
-    "part_number": 10SA11C,
+    "part_number": "10SA11C",
     "category": "Compressor",
     "brand": "Toyota",
     "model": "Wigo Gen 1",
-    "year_start": null,
-    "year_end": null,
+    "year_start": 2018,
+    "year_end": 2022,
     "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
   },
   {
@@ -160,8 +160,8 @@
     "category": "Evaporator",
     "brand": "Nissan",
     "model": "NP300 EL",
-    "year_start": 2016,
-    "year_end": null,
+    "year_start": 2014,
+    "year_end": 2017,
     "description": "Shop listing sample. Confirm the part number and exact vehicle fitment before use."
   },
   {
@@ -215,8 +215,8 @@
     "category": "Blower Motor",
     "brand": "Toyota",
     "model": "Wigo",
-    "year_start": null,
-    "year_end": null,
+    "year_start": 2014,
+    "year_end": 2026,
     "description": "The listing names Wigo Gen 1 and Gen 2 without exact years. Confirm fitment before use."
   }
 ]
