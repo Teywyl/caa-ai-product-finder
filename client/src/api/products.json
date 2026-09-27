@@ -62,7 +62,7 @@
     "brand": "Mitsubishi",
     "model": "Montero Gen 2",
     "year_start": 2008,
-    "year_end": 2014  ,
+    "year_end": 2014,
     "description": "Shop listing sample. Confirm the compressor variation and exact vehicle fitment before use."
   },
   {
@@ -90,7 +90,7 @@
   {
     "id": "product-9",
     "name": "Toyota Vios Gen 1 Compressor",
-    "part_number": "10S11C"
+    "part_number": "10S11C",
     "category": "Compressor",
     "brand": "Toyota",
     "model": "Vios Gen 1",
