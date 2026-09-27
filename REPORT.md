@@ -1,6 +1,6 @@
 # Weekly Increment Report
 
-## Week of: September 21–23, 2026 — Week 1
+## Week of: September 14-20, 2026 — Week 1
 
 ## What changed this week
 
@@ -34,3 +34,38 @@ The first deployment failed because GitHub Pages was not enabled correctly. Afte
 - Deploy the API and database and connect them to the client.
 - Implement AI-assisted product searches using stored product information.
 - Keep the documentation, screenshots, and AI usage record current.
+
+# Weekly Increment Report
+
+## Week of: September 21–27, 2026
+
+## What changed this week
+
+- Added filters for car brand, model, and year. The available model choices change based on the selected brand.
+- Added a Clear filters button, a product count, and a message when no products match.
+- Expanded the sample catalog from three to 20 products, with five cabin filters, five compressors, five evaporators, and five blower motors.
+- Revised product names, part numbers, and year ranges in `products.json`.
+- Updated the demo notice to explain the current limitations.
+- Deployed the updated client to GitHub Pages.
+
+## Why
+
+I added the filters so users can narrow down the products using their vehicle information instead of checking every item manually. Expanding the catalog gave me more products and categories to work with when checking the filters. I also revised the product information to make the sample listings more useful, although exact compatibility still needs verification.
+
+## What broke or what I got stuck on
+
+I had difficulty finding exact compatible years and part numbers for some products. Some listings did not provide enough information, so I still need to verify these records.
+
+Two deployment runs failed before the latest successful deployment. I still need to review their logs to confirm the causes.
+
+The server still uses the template’s sightings routes and database tables. It does not have a working product endpoint yet, so the client remains in demo mode. The README and screenshot also need updating to match the current interface.
+
+## What is left
+
+- Update the documentation and screenshot, and complete the security checklist.
+- Verify the product information and expand the catalog to 50 products.
+- Add category filtering and improve the product details display.
+- Create the product API and PostgreSQL tables, then deploy and connect them to the client.
+- Add login and authorized product management.
+- Implement AI-assisted searches using the products stored in the database.
+- Test the completed application and fix remaining issues.
