@@ -157,8 +157,6 @@ The sightings routes are unfinished starter functionality for this project. Thei
 
 ![CAA AI Product Finder](docs/screenshot.png)
 
-The current screenshot shows the earlier three-product interface. It needs replacing with a screenshot of the 20-product catalog and vehicle filters.
-
 ## Known issues and next steps
 
 - The application runs in demo mode. The product API and PostgreSQL database are not connected.
