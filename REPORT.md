@@ -58,11 +58,11 @@ I had difficulty finding exact compatible years and part numbers for some produc
 
 Two deployment runs failed before the latest successful deployment. I still need to review their logs to confirm the causes.
 
-The server still uses the template’s sightings routes and database tables. It does not have a working product endpoint yet, so the client remains in demo mode. The README and screenshot also need updating to match the current interface.
+The server still uses the template’s sightings routes and database tables. It does not have a working product endpoint yet, so the client remains in demo mode. The README and screenshot have now been updated to match the current interface.
 
 ## What is left
 
-- Update the documentation and screenshot, and complete the security checklist.
+- Complete the security checklist.
 - Verify the product information and expand the catalog to 50 products.
 - Add category filtering and improve the product details display.
 - Create the product API and PostgreSQL tables, then deploy and connect them to the client.
