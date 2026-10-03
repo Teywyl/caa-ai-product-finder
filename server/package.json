@@ -10,7 +10,7 @@
     "db:seed": "node --env-file=.env db/run.js db/seed.sql",
     "db:reset": "npm run db:schema && npm run db:seed",
     "user:create": "node --env-file_.env scripts/create-user.js",
-    "test": "node --env-file+.env --test --test-concurrency=1 test/api.test.js test/your-part.test.js"
+    "test": "node --env-file+.env --test --test-concurrency=1 test/api.test.js test/compatibility-search.test.js"
   },
   "engines": {
     "node": ">=20"
