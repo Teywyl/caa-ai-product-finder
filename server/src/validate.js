@@ -1,10 +1,10 @@
 export const CATEGORIES = [
   'Evaporator',
   'Cabin Filter',
-  'Air Fliter',
+  'Air Filter',
   'Fuel Filter',
   'Blower Motor',
-  'Comprssor',
+  'Compressor',
 ]
 
 export const STOCK_STATUSES = [
