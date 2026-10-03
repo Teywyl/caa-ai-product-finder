@@ -1,24 +1,60 @@
 import { HttpError, asyncRoute } from '../http.js'
-
-// Implement GET /api/models/:modelId/products?year=2021.
-//
-// Required responses:
-// 404: vehicle model does not exist.
-// 400: year is missing, invalid or outside the model's year range.
-// 200: { model, year, matches }.
-//
-// Available helpers:
-// getModel from ../repos/catalogRepo.js
-// findCompatibleProducts from ../repos/compatibleProductsRepo.js
-// parseYear from ../validate.js
-//
-// app.js requires a valid login before reaching this route.
+import { getModel } from '../repos/catalogRepo.js'
+import {
+  findCompatibleProducts,
+} from '../repos/compatibleProductsRepo.js'
+import { parseYear } from '../validate.js'
 
 export function compatibleProductsRoute(db) {
   return asyncRoute(async (request, response) => {
-    throw new HttpError(
-      501,
-      'Compatible-product search is not built yet.'
+    const model = await getModel(
+      db,
+      request.params.modelId
     )
+
+    if (!model) {
+      throw new HttpError(
+        404,
+        'No vehicle model with that id.'
+      )
+    }
+
+    if (typeof request.query.year !== 'string') {
+      throw new HttpError(
+        400,
+        'Select a vehicle year.'
+      )
+    }
+
+    const year = parseYear(request.query.year)
+
+    if (!Number.isInteger(year)) {
+      throw new HttpError(
+        400,
+        'Year must be a valid whole number.'
+      )
+    }
+
+    if (
+      year < model.years.from ||
+      year > model.years.to
+    ) {
+      throw new HttpError(
+        400,
+        `Select a year from ${model.years.from} to ${model.years.to}.`
+      )
+    }
+
+    const matches = await findCompatibleProducts(
+      db,
+      model.id,
+      year
+    )
+
+    response.json({
+      model,
+      year,
+      matches,
+    })
   })
 }
