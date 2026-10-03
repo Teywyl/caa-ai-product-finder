@@ -2,174 +2,341 @@
 
 ## Overview
 
-CAA AI Product Finder helps Cabalen Auto Aircon users browse car air-conditioning products and narrow the list by vehicle brand, model, and year. The current version is a demo with 20 sample products. Exact vehicle compatibility must still be verified before using a product.
+CAA AI Product Finder is a private web app for Cabalen Auto Aircon and authorized users. Users select a vehicle brand, model and year to find products with confirmed compatibility records and open the shop's marketplace listings.
 
-Live app: https://teywyl.github.io/caa-ai-product-finder/
+Editors and Admins can maintain products, shop links and compatibility records. Admins can also manage authorized accounts. There is no public registration.
 
 Project repository: https://github.com/Teywyl/caa-ai-product-finder
+
+Full application deployment: Not completed yet.
+
+## Current status
+
+As of October 4, 2026:
+
+- The React client, Express API and PostgreSQL database work together in Codespaces.
+- Admin login works.
+- Vehicle browsing, item details, Product Records and User Administration can be opened.
+- All 62 automated server tests passed.
+- The frontend production build passed.
+- The active client uses the real API.
+- The Finder uses server-side keyword matching. Gemini is not connected.
+
+These results verify local operation. The complete hosted application still needs deployment and testing.
 
 ## Setup and installation
 
 ### Requirements
 
 - Node.js 20 or later and npm.
-- Git to clone the repository.
+- Git.
+- Docker for the PostgreSQL setup below.
 - A web browser.
-
-The current demo does not require a database.
 
 ### Get the code
 
 ```bash
 git clone https://github.com/Teywyl/caa-ai-product-finder.git
-cd caa-ai-product-finder/client
-npm install
+cd caa-ai-product-finder
+```
+
+### Create the local database
+
+Replace `CHANGE_ME` with a local development database password. Use the same password in `server/.env`.
+
+```bash
+docker run --name caa-revision-db \
+  -e POSTGRES_PASSWORD=CHANGE_ME \
+  -e POSTGRES_DB=caa_revision \
+  -p 127.0.0.1:5433:5432 \
+  -d postgres:17
+```
+
+Check that PostgreSQL is ready:
+
+```bash
+docker exec caa-revision-db pg_isready -U postgres -d caa_revision
+```
+
+Once it reports accepting connections, create a separate test database:
+
+```bash
+docker exec caa-revision-db createdb -U postgres caa_revision_test
+```
+
+These creation commands are only needed during the first setup. To restart an existing stopped container:
+
+```bash
+docker start caa-revision-db
+```
+
+### Install server dependencies
+
+From the repository root:
+
+```bash
+cd server
+npm ci
 cp .env.example .env
 ```
 
-### Environment and configuration
+### Server environment
 
-Keep these client settings in `client/.env`:
+Edit `server/.env`:
 
 ```env
-VITE_USE_MOCK_API=true
-VITE_API_BASE_URL=http://localhost:3000
+DATABASE_URL=postgresql://postgres:CHANGE_ME@localhost:5433/caa_revision
+TEST_DATABASE_URL=postgresql://postgres:CHANGE_ME@localhost:5433/caa_revision_test
+CORS_ORIGINS=http://localhost:5173
+SESSION_HOURS=12
+NODE_ENV=development
 ```
 
-| Variable | Location | Purpose and example |
-| --- | --- | --- |
-| `VITE_USE_MOCK_API` | Client | `true` uses bundled sample products. Only `false` selects the real API. |
-| `VITE_API_BASE_URL` | Client | API address, such as `http://localhost:3000`. Ignored in demo mode. |
-| `VITE_BASE_PATH` | Client build | Deployment path. The Pages workflow sets `/caa-ai-product-finder/`. |
-| `DATABASE_URL` | Server | PostgreSQL connection string, such as `postgresql://USER:PASSWORD@localhost:5432/DATABASE`. |
-| `CORS_ORIGINS` | Server | Allowed browser origins, such as `http://localhost:5173`. |
-| `NODE_ENV` | Server | `development` locally or `production` when deployed. |
-| `PORT` | Server | Hosting provider’s assigned port. The server defaults to `3000` when unset. |
-| `POSTGRES_PASSWORD` | Optional Docker Compose setup | Database password, such as `REPLACE_WITH_A_LOCAL_PASSWORD`. |
+Replace the example password with the local password chosen above. These instructions assume a newly created environment file; preserve existing settings when updating an established setup.
 
-Real credentials belong in untracked environment files or hosting settings. Values beginning with `VITE_` are public in the client build and must not contain secrets.
+### Create tables and load the catalogue
 
-### Database setup and seed status
-
-The product database is not implemented yet. The current catalog comes from `client/src/api/products.json`.
-
-The repository contains PostgreSQL starter files for sightings. To run that starter separately, create a PostgreSQL database, install the server dependencies, and configure its environment file:
+Only against a new or disposable development database, run inside `server/`:
 
 ```bash
-cd ../server
-npm install
-cp .env.example .env
+npm run db:reset
 ```
 
-Set `DATABASE_URL` in `server/.env` to your development database connection string. Then run:
+This creates the tables and loads the starting catalogue.
+
+**This command deletes and rebuilds the app's tables, including accounts. Do not run it against data you need to keep.**
+
+The database contains tables for:
+
+- Users and sessions.
+- Brands and vehicle models.
+- Products and marketplace links.
+- Vehicle compatibility records.
+
+### Create the first admin
+
+Inside `server/`:
 
 ```bash
-npm run db:schema
-npm run db:seed
+npm run user:create -- --name "Shop Admin" --email "admin@example.com" --role admin
 ```
 
-These commands create and seed the template’s sightings table, not a product table. The seed command deletes existing sightings, so use a disposable development database.
+Replace the example name and email with your account details. Enter a private password of 10 to 200 characters when prompted.
 
-## How to run it
+There are no default login credentials.
+
+### Install client dependencies
 
 From the repository root:
 
 ```bash
 cd client
-npm run dev
+npm ci
+cp .env.example .env
 ```
 
-Open the address printed by Vite, usually `http://localhost:5173/`. In Codespaces, open the forwarded address for port 5173.
+Edit `client/.env` so the API base URL is blank:
 
-The first screen shows the CAA AI Product Finder heading, a demo notice, vehicle filters, and sample product cards.
-
-To check the production build, run inside `client/`:
-
-```bash
-npm run build
+```env
+VITE_API_BASE_URL=
 ```
 
-If you configured the starter server and database, start it in a separate terminal from the repository root:
+This makes the development client send requests through Vite's `/api` proxy to the Express server.
+
+In Codespaces, using `http://localhost:3000` as the browser's API address would point to the user's computer rather than the Codespace.
+
+### Environment and configuration
+
+| Variable | Location | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | Server | Connection to the application database. |
+| `TEST_DATABASE_URL` | Server | Connection to a separate disposable test database. |
+| `CORS_ORIGINS` | Server | Comma-separated allowed browser origins. |
+| `SESSION_HOURS` | Server | Session duration in hours; normally `12`. |
+| `NODE_ENV` | Server | `development` locally or `production` when hosted. |
+| `PORT` | Server | API port; defaults to `3000` when unset. Hosting providers normally supply it. |
+| `VITE_API_BASE_URL` | Client | Blank for the development proxy; the hosted API URL for deployment. |
+| `VITE_BASE_PATH` | Client build | Asset prefix. The Pages workflow sets `/caa-ai-product-finder/`. |
+| `POSTGRES_PASSWORD` | PostgreSQL container | Password chosen when creating the local database container. |
+
+Real credentials belong in untracked environment files or hosting settings. Values beginning with `VITE_` are public and must not contain passwords, database connection strings or API keys.
+
+The revised client does not use the old `VITE_USE_MOCK_API` switch.
+
+## How to run it
+
+Start the API in one terminal:
 
 ```bash
 cd server
 npm run dev
 ```
 
-Its default address is `http://localhost:3000`. Starting it does not connect the product demo to a product database.
+Start the client in a separate terminal, from the repository root:
+
+```bash
+cd client
+npm run dev -- --host 0.0.0.0
+```
+
+Open `http://localhost:5173/` locally. In Codespaces, open the forwarded browser address for port 5173.
+
+The first screen is Login. Sign in with the account created earlier. Keep both terminals running while using the app.
+
+The API normally runs on port 3000. PostgreSQL uses port 5433 in this setup; that port is not a website.
 
 ## Features and usage
 
-The demo contains 20 products:
+### Main browsing flow
 
-- Five cabin filters.
-- Five compressors.
-- Five evaporators.
-- Five blower motors.
+1. Sign in with an authorized account.
+2. Select a brand from Home or Brands.
+3. Select a vehicle model from its garage.
+4. Choose the vehicle year.
+5. Browse products with confirmed compatibility for that selection.
+6. Open an item to view its details, fit records and available marketplace links.
 
-To browse the catalog:
+The garage includes available models and decorative locked slots. Locked slots cannot be selected.
 
-1. Select a car brand.
-2. Select a model from the available choices.
-3. Enter a vehicle year to narrow the results further.
-4. Check the matching-product count and displayed cards.
-5. Select **View details** to display the product’s category, part number, and description below the list.
-6. Select **Close details** to hide that information.
-7. Select **Clear filters** to show all products again.
+The starting catalogue contains:
 
-A message appears when no products match. Filters use the sample records and do not independently verify compatibility.
+- 3 brands.
+- 9 vehicle models.
+- 7 products.
+- 11 compatibility records.
 
-### Current API status
+Six compatibility records still need verification. They are excluded from confirmed matches.
 
-The product client is prepared to request `GET /api/products`, but that endpoint is not implemented on the server. Keep demo mode enabled.
+A product's presence in the catalogue does not establish its current stock availability.
 
-The starter server currently provides:
+### Account roles
+
+| Role | Access |
+| --- | --- |
+| Viewer | Browse vehicles, products and confirmed matches, and use the Finder. |
+| Editor | Viewer access plus product, shop-link and compatibility management. |
+| Admin | Editor access plus account administration. |
+
+Passwords are hashed on the server. Protected API routes check the session and required role.
+
+### Finder
+
+The Finder accepts text such as:
+
+```text
+cabin filter for terra 2020
+```
+
+It uses keyword matching to identify the vehicle, year and category, then searches the database. It asks for missing information.
+
+Gemini is not connected. The Finder does not generate new compatibility claims.
+
+### Vehicle previews
+
+The interface supports interactive vehicle previews. Generic shapes are used where an exact model asset is unavailable.
+
+Installing the required licensed 3D assets and checking their credits in the public repository remain unfinished.
+
+### Main API endpoints
+
+Protected requests use:
+
+```text
+Authorization: Bearer <session-token>
+```
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| GET | `/healthz` | Checks whether the server process responds. |
-| GET | `/readyz` | Checks database connectivity. |
-| GET | `/api/sightings` | Lists template sightings. |
-| GET | `/api/sightings/:id` | Retrieves one template sighting. |
-| POST | `/api/sightings` | Creates a template sighting. |
-| PUT | `/api/sightings/:id` | Updates a template sighting. |
-| DELETE | `/api/sightings/:id` | Deletes a template sighting. |
+| GET | `/healthz` | Check API process health. |
+| GET | `/readyz` | Check database connectivity. |
+| POST | `/api/auth/login` | Sign in and create a session. |
+| GET | `/api/auth/me` | Read the current account. |
+| POST | `/api/auth/logout` | End the session. |
+| GET | `/api/brands` | List brands. |
+| GET | `/api/brands/:brandId/models` | List models for a brand. |
+| GET | `/api/models` | List vehicle models. |
+| GET | `/api/models/:modelId` | Read a vehicle model. |
+| GET | `/api/models/:modelId/products?year=2020` | Find confirmed compatible products. |
+| GET | `/api/models/:modelId/pending` | Read unverified fit records separately. |
+| GET, POST | `/api/products` | List or create products. |
+| GET, PUT, DELETE | `/api/products/:id` | Read, update or delete a product. |
+| GET, POST | `/api/compatibility` | List or create compatibility records. |
+| PUT, DELETE | `/api/compatibility/:id` | Update or delete a compatibility record. |
+| POST | `/api/finder` | Search using a text request. |
+| GET, POST | `/api/users` | List or create accounts as Admin. |
+| PATCH, DELETE | `/api/users/:id` | Update or remove an account as Admin. |
 
-The sightings routes are unfinished starter functionality for this project. Their write operations have no access protection and should not be exposed as the finished product API.
+Product and compatibility writes require Editor or Admin access. User administration requires Admin access.
+
+## Testing and production build
+
+Inside `server/`:
+
+```bash
+npm test
+```
+
+Tests create their own tables and sample records in the separate test database. Never point `TEST_DATABASE_URL` at the application database.
+
+Inside `client/`:
+
+```bash
+npm run build
+```
+
+Verified on October 4, 2026:
+
+- 62 server tests passed.
+- 0 failures or cancellations.
+- Vite successfully built 57 modules.
+
+The tests cover authentication, permissions, catalogue access, product management, account administration and compatibility-search behavior.
 
 ## Project structure
 
 | Path | Contents |
 | --- | --- |
-| `client/src/App.jsx` | Product browsing interface and vehicle filters. |
-| `client/src/api/products.json` | Sample product catalog. |
-| `client/src/api/index.js` | Selects the demo or HTTP API implementation. |
-| `client/src/api/mockApi.js` | Supplies the sample products. |
-| `client/src/api/httpApi.js` | Functions for calling the server. |
-| `client/src/components/DemoNotice.jsx` | Explains demo limitations. |
-| `client/src/styles.css` | Interface styling. |
-| `server/` | Express starter server and database queries. |
-| `server/db/` | PostgreSQL connection, schema, and seed scripts. |
-| `.github/workflows/deploy-pages.yml` | Builds and deploys the client to GitHub Pages. |
-| `docs/` | Screenshot and template documentation files. |
+| `client/src/App.jsx` | Application routing and screen composition. |
+| `client/src/pages/` | Login, browsing, vehicle, item, Finder and management screens. |
+| `client/src/components/` | Shared interface and vehicle preview components. |
+| `client/src/api/` | API requests and session handling. |
+| `client/src/context/` | Shared application state. |
+| `client/src/lib/` | Navigation and catalogue helpers. |
+| `client/src/styles.css` | Shared styling. |
+| `client/src/designs.css` | Interface themes. |
+| `client/src/luxe.css` | Additional visual styling. |
+| `server/server.js` | API startup. |
+| `server/src/app.js` | Express application and middleware. |
+| `server/src/routes/` | API route handlers. |
+| `server/src/repos/` | PostgreSQL queries. |
+| `server/db/` | Database connection, schema and seed scripts. |
+| `server/scripts/` | Account-creation command. |
+| `server/test/` | Automated API and compatibility tests. |
+| `.github/workflows/deploy-pages.yml` | Frontend build and GitHub Pages deployment. |
+| `docs/` | Supporting documentation and screenshots. |
 
 ## Screenshots
 
-![CAA AI Product Finder](docs/screenshot.png)
+![Current CAA product browser](docs/screenshot.png)
 
 ## Known issues and next steps
 
-- The application runs in demo mode. The product API and PostgreSQL database are not connected.
-- Some product part numbers and compatible years still need verification.
-- Product details appear below the full list and can be difficult to notice.
-- Category filtering is not implemented.
-- The screenshot needs updating.
-- The sample catalog contains 20 products; expansion to 50 is planned.
-- Login, authorized product management, and AI-assisted product searches are not implemented.
-- The server needs dependency updates and access protection before deployment.
+- Deploy the database and API, then connect the public frontend.
+- Test the complete deployed workflow.
+- Finish product details, marketplace links and compatibility verification.
+- Upload and verify licensed 3D assets and their credits.
+- Review frontend concerns and mobile layouts.
+- Replace outdated screenshots.
+- Review the security checklist against the revised implementation.
+- Connect Gemini if time permits, keeping results grounded in CAA records.
+- Complete the presentation materials.
+
+Public hosting is planned for GitHub Pages, Render and Neon. The complete hosted system has not been verified yet.
 
 ## AI usage
 
-![Built with AI assistance](https://img.shields.io/badge/built%20with-AI%20assistance-0b5fff)
+Claude supplied most of the revised interface and backend code. ChatGPT/Codex reviewed files, explained implementation choices and guided troubleshooting while still explaining how things happen and why things happen.
 
-I worked on the project with ChatGPT as a guide to keep the development on track. It suggested code, explained the steps, and helped me troubleshoot errors. I entered and reviewed the changes, worked on the product data, ran the build, and checked the live site. I used the guidance to learn why each change was needed and how the parts connect. Details of the assistance and my contributions are recorded in [AI-USAGE.md](AI-USAGE.md).
+I provided the project requirements, wireframes and catalogue information, manually applied changes to this repo, configured the local environment and ran the checks.
+
+See [AI-USAGE.md](AI-USAGE.md) for the assistance record and contribution details.
