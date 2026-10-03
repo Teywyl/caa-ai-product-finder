@@ -1,30 +1,51 @@
-import { HttpError } from '../http.js'
-
-// Implement the confirmed-compatibility query here.
-//
-// Required rules:
-// 1. Match the requested model ID.
-// 2. Include only confirmed compatibility records.
-// 3. Include only products listed by CAA.
-// 4. Require year >= year_from.
-// 5. Require year <= year_to, unless year_to is null (onward).
-// 6. Exclude records with no starting year.
-// 7. Return each product once.
-// 8. Use SQL parameters for modelId and year.
-//
-// Return an array of:
-// {
-//   product: mapped product with marketplace links,
-//   record: { id, yearFrom, yearTo, status, source }
-// }
-//
-// Sort by product category, then product name.
-// Available helpers in productsRepo.js:
-// PRODUCT_COLUMNS, mapProduct, attachLinks.
+import {
+  PRODUCT_COLUMNS,
+  mapProduct,
+  attachLinks,
+} from './productsRepo.js'
 
 export async function findCompatibleProducts(db, modelId, year) {
-  throw new HttpError(
-    501,
-    'Compatible-product search is not built yet.'
+  const { rows } = await db.query(
+    `SELECT ${PRODUCT_COLUMNS},
+            fit.id AS record_id,
+            fit.year_from,
+            fit.year_to,
+            fit.status AS fit_status,
+            fit.source AS fit_source
+       FROM products p
+       JOIN LATERAL (
+         SELECT c.id,
+                c.year_from,
+                c.year_to,
+                c.status,
+                c.source
+           FROM compatibility c
+          WHERE c.product_id = p.id
+            AND c.model_id = $1
+            AND c.status = 'confirmed'
+            AND c.year_from IS NOT NULL
+            AND c.year_from <= $2
+            AND (c.year_to IS NULL OR c.year_to >= $2)
+          ORDER BY c.year_from DESC, c.id ASC
+          LIMIT 1
+       ) fit ON TRUE
+      WHERE p.listed = true
+      ORDER BY p.category, p.name, p.id`,
+    [modelId, year]
   )
+
+  const products = rows.map(mapProduct)
+
+  await attachLinks(db, products)
+
+  return rows.map((row, index) => ({
+    product: products[index],
+    record: {
+      id: Number(row.record_id),
+      yearFrom: row.year_from,
+      yearTo: row.year_to,
+      status: row.fit_status,
+      source: row.fit_source,
+    },
+  }))
 }
