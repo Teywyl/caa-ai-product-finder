@@ -85,23 +85,7 @@ export function VehicleSilhouette({
 }
 
 export function Arc360() {
-  return (
-    <svg className="arc360" viewBox="0 0 400 70" aria-hidden="true">
-      <path
-        d="M330 58 C300 18 250 8 200 8 C150 8 100 18 70 58"
-        className="arc360-path"
-      />
-      <path d="M70 58 L66 44 M70 58 L83 52" className="arc360-path" />
-      <text
-        x="200"
-        y="30"
-        textAnchor="middle"
-        className="arc360-text"
-      >
-        360°
-      </text>
-    </svg>
-  )
+  return null;
 }
 
 const sketchfabUid = (url) => {
