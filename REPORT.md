@@ -68,3 +68,51 @@ The server still uses the template’s sightings routes and database tables. It 
 - Add login and authorized product management.
 - Implement AI-assisted searches using the products stored in the database.
 - Test the completed application and fix remaining issues.
+
+# Weekly Increment Report
+
+## Week of: September 28 - October 4, 2026
+
+## What changed this week
+
+- Starting Monday, I planned and revised the wireframes and app content. I gathered 3D model references and organized the included brands, vehicle models, item categories and marketplace links.
+
+- I applied the revised files to the existing repository. The app now follows Login → Home → Brand Garage → Vehicle and Year → Compatible Parts → Item Details and Shop Links.
+
+- I connected the React client, Express API and PostgreSQL database in Codespaces. I created an admin account, successfully signed in, and opened the browsing and management screens.
+
+- The catalogue seed now contains 3 brands, 9 vehicle models, 7 products and 11 compatibility records. Six records still need verification and are excluded from confirmed matches.
+
+- All 62 automated server tests passed, and the frontend production build completed successfully. I implemented the revision with AI-generated code and troubleshooting guidance, then applied the changes and checked the results.
+
+## Why
+
+The previous sample-product browser did not match the workflow I wanted for Cabalen Auto Aircon. I wanted users to select their vehicle first and find products with confirmed compatibility records and direct shop links.
+
+The revised login and account roles also help control who can view records, edit products and manage users.
+
+## What broke or what I got stuck on
+
+Some filenames did not match their imports, and some package scripts needed correction.
+
+Account creation failed because the database connection used port 5432 instead of 5433. After correcting it, I found that the database tables had not been created yet. I initialized the empty database before creating the admin account.
+
+The login page could not reach the API because the client configuration pointed to localhost on my computer. Leaving the API base URL blank allowed Vite to forward requests to the server inside Codespaces.
+
+The first test run was cancelled because the separate test database did not exist. After creating it, all 62 tests passed.
+
+I also identified frontend concerns that still need review. Public deployment was postponed.
+
+## What is left
+
+- Complete the product details, marketplace links and compatibility verification.
+- Upload and check the licensed 3D assets and their credits.
+- Review frontend and test the mobile layouts.
+- Deploy the database and API, then connect GitHub Pages to them.
+- Test the complete deployed application.
+- Connect Gemini if time permits. The current Finder uses keyword matching.
+- Update screenshots and review the security checklist.
+- Complete the presentation materials.
+- Document a meaningful independently written code contribution.
+
+The revised system works in Codespaces, but the complete public deployment is not finished.
