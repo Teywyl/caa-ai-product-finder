@@ -1,42 +1,112 @@
-// The real client. Every function here talks to YOUR Express API.
-//
-// This is the file that matters for your finals project. mockApi.js exists so
-// you can build the interface before this has anywhere to point.
+import { request } from './client.js'
 
-const BASE = import.meta.env.VITE_API_BASE_URL || ''
+const id = encodeURIComponent
 
-async function request(path, options) {
-  const response = await fetch(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options,
-  })
+export const authApi = {
+  login: (email, password) =>
+    request('/auth/login', {
+      method: 'POST',
+      body: { email, password },
+    }),
 
-  if (!response.ok) {
-    // Try to use the API's own message; fall back to the status line.
-    let message = `${response.status} ${response.statusText}`
-    try {
-      const body = await response.json()
-      if (body?.error) message = body.error
-    } catch {
-      // The body was not JSON. The status line is all we have.
-    }
-    throw new Error(message)
-  }
+  logout: () =>
+    request('/auth/logout', { method: 'POST' }),
 
-  return response.status === 204 ? null : response.json()
+  me: () => request('/auth/me'),
 }
 
-export const listSightings = () => request('/api/sightings')
+export const catalogApi = {
+  brands: () => request('/brands'),
 
-export const getSighting = (id) => request(`/api/sightings/${id}`)
+  models: () => request('/models'),
 
-export const createSighting = (input) =>
-  request('/api/sightings', { method: 'POST', body: JSON.stringify(input) })
+  model: (modelId) =>
+    request(`/models/${id(modelId)}`),
 
-export const updateSighting = (id, input) =>
-  request(`/api/sightings/${id}`, { method: 'PUT', body: JSON.stringify(input) })
+  pending: (modelId, opts) =>
+    request(`/models/${id(modelId)}/pending`, opts),
 
-export const deleteSighting = (id) =>
-  request(`/api/sightings/${id}`, { method: 'DELETE' })
+  compatibleProducts: (modelId, year, opts) =>
+    request(
+      `/models/${id(modelId)}/products?year=${id(year)}`,
+      opts
+    ),
 
-export const listProducts = () => request('/api/products')
+  finder: (text, opts) =>
+    request('/finder', {
+      method: 'POST',
+      body: { text },
+      ...opts,
+    }),
+}
+
+export const productsApi = {
+  list: () => request('/products'),
+
+  get: (productId, opts) =>
+    request(`/products/${id(productId)}`, opts),
+
+  create: (product) =>
+    request('/products', {
+      method: 'POST',
+      body: product,
+    }),
+
+  update: (productId, product) =>
+    request(`/products/${id(productId)}`, {
+      method: 'PUT',
+      body: product,
+    }),
+
+  remove: (productId) =>
+    request(`/products/${id(productId)}`, {
+      method: 'DELETE',
+    }),
+}
+
+export const compatibilityApi = {
+  list: (modelId) =>
+    request(
+      `/compatibility${
+        modelId ? `?modelId=${id(modelId)}` : ''
+      }`
+    ),
+
+  create: (record) =>
+    request('/compatibility', {
+      method: 'POST',
+      body: record,
+    }),
+
+  update: (recordId, record) =>
+    request(`/compatibility/${id(recordId)}`, {
+      method: 'PUT',
+      body: record,
+    }),
+
+  remove: (recordId) =>
+    request(`/compatibility/${id(recordId)}`, {
+      method: 'DELETE',
+    }),
+}
+
+export const usersApi = {
+  list: () => request('/users'),
+
+  create: (user) =>
+    request('/users', {
+      method: 'POST',
+      body: user,
+    }),
+
+  update: (userId, changes) =>
+    request(`/users/${id(userId)}`, {
+      method: 'PATCH',
+      body: changes,
+    }),
+
+  remove: (userId) =>
+    request(`/users/${id(userId)}`, {
+      method: 'DELETE',
+    }),
+}
