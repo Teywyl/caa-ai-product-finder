@@ -4,11 +4,13 @@
 -- Running this resets catalogue data.
 -- Existing users and sessions are preserved.
 -- Prices and stock remain unconfirmed until checked.
+-- Year rules: “up”, “upwards”, “current”, “latest” or an open “2018-” end in 2026;
+-- “below” / “down” start from 2000.
 -- TikTok links were reported as unavailable for every product, so none are stored.
 -- Create the first admin separately with npm run user:create.
- 
+
 BEGIN;
- 
+
 TRUNCATE
   compatibility,
   product_links,
@@ -16,12 +18,12 @@ TRUNCATE
   vehicle_models,
   brands
 RESTART IDENTITY CASCADE;
- 
+
 INSERT INTO brands (id, name, logo_url) VALUES
   ('nissan', 'Nissan', NULL),
   ('suzuki', 'Suzuki', NULL),
   ('honda', 'Honda', NULL);
- 
+
 INSERT INTO vehicle_models (
   id,
   brand_id,
@@ -217,7 +219,7 @@ INSERT INTO vehicle_models (
     NULL,
     NULL
   );
- 
+
 INSERT INTO products (
   id,
   name,
@@ -496,12 +498,12 @@ INSERT INTO products (
     'unconfirmed',
     NULL
   );
- 
+
 SELECT setval(
   pg_get_serial_sequence('products', 'id'),
   (SELECT max(id) FROM products)
 );
- 
+
 INSERT INTO product_links (product_id, marketplace, url) VALUES
   -- 1 Evaporator (Terra / NP300)
   (
@@ -762,7 +764,7 @@ INSERT INTO product_links (product_id, marketplace, url) VALUES
     'shopee',
     'https://shopee.ph/Aircon-Evaporator-Honda-CRV-gen-2-i.329965539.16067031514?extraParams=%7B%22display_model_id%22%3A125726752701%2C%22model_selection_logic%22%3A3%7D'
   );
- 
+
 INSERT INTO compatibility (
   product_id,
   model_id,
@@ -776,7 +778,7 @@ INSERT INTO compatibility (
     1,
     'nissan-terra',
     2018,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Terra. Listing title: “Nissan Terra (2018-)”.'
   ),
@@ -784,7 +786,7 @@ INSERT INTO compatibility (
     2,
     'nissan-terra',
     2018,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Terra. Listing title: “Nissan Terra 2018-Up”.'
   ),
@@ -792,7 +794,7 @@ INSERT INTO compatibility (
     3,
     'nissan-terra',
     2018,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Terra. Listing title: “Nissan Terra (2018-current)”.'
   ),
@@ -801,7 +803,7 @@ INSERT INTO compatibility (
     2,
     'nissan-navara-calibre-e',
     2014,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Navara. Listing title: “Navara NP300 Calibre 2014-Up”.'
   ),
@@ -817,7 +819,7 @@ INSERT INTO compatibility (
     3,
     'nissan-navara-calibre-e',
     2021,
-    NULL,
+    2026,
     'needs_verification',
     'Supplied under the Navara Calibre E 2021 reference vehicle, but the listing title states 2014–2020. Not shown for 2021 onward until fitment is confirmed.'
   ),
@@ -825,7 +827,7 @@ INSERT INTO compatibility (
     1,
     'nissan-navara-calibre-e',
     2016,
-    NULL,
+    2026,
     'needs_verification',
     'Listing title also names “NP300 El (2016 upwards)”, but this listing was supplied for Terra only. Confirm Navara Calibre E fitment before enabling.'
   ),
@@ -873,10 +875,10 @@ INSERT INTO compatibility (
   (
     9,
     'nissan-almera-versa',
-    2013,
+    2000,
     2016,
     'confirmed',
-    'Supplied under Almera as “2016 below”. Listing title: “Nissan Almera (2016 below)”. Start year set to the start of the Almera range (2013).'
+    'Supplied under Almera as “2016 below”. Listing title: “Nissan Almera (2016 below)”. “Below” is recorded as from 2000.'
   ),
   (
     10,
@@ -891,7 +893,7 @@ INSERT INTO compatibility (
     11,
     'suzuki-ertiga',
     2019,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Ertiga. Listing title: “Suzuki Ertiga All new (2019 up)”.'
   ),
@@ -899,7 +901,7 @@ INSERT INTO compatibility (
     12,
     'suzuki-ertiga',
     2019,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Ertiga. Listing title: “Suzuki Ertiga All new (2019 up)”.'
   ),
@@ -933,7 +935,7 @@ INSERT INTO compatibility (
     16,
     'suzuki-jimny',
     2019,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Jimny. Listing title: “Suzuki Jimny 2019 up Air Filter”.'
   ),
@@ -941,7 +943,7 @@ INSERT INTO compatibility (
     17,
     'suzuki-jimny',
     2019,
-    NULL,
+    2026,
     'confirmed',
     'Supplied under Jimny. Listing title: “Suzuki Jimny 2019 up Charcoal Cabin Filter”.'
   ),
@@ -1028,5 +1030,5 @@ INSERT INTO compatibility (
     'confirmed',
     'Supplied under CR-V. Listing title: “Honda CRV gen 2”. Years set to the gen 2 production run (2001–2006).'
   );
- 
+
 COMMIT;
