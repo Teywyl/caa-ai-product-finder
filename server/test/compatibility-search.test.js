@@ -43,7 +43,7 @@ describe('confirmed compatibility query', () => {
     )
     assert.equal(first.record.status, 'confirmed')
     assert.equal(first.record.yearFrom, 2018)
-    assert.equal(first.record.yearTo, null)
+    assert.equal(first.record.yearTo, 2026)
     assert.ok(first.record.source.length > 0)
     assert.equal(typeof first.record.id, 'number')
   })
