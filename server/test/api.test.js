@@ -252,7 +252,7 @@ describe('products', () => {
       token: tokens.viewer,
     })
     assert.equal(list.status, 200)
-    assert.equal(list.body.products.length, 7)
+    assert.equal(list.body.products.length, 26)
 
     const one = await t.call('/api/products/3', {
       token: tokens.viewer,
