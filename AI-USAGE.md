@@ -63,6 +63,38 @@ I used ChatGPT while building CAA AI Product Finder. It helped me plan changes, 
   - [Compatibility tests](https://github.com/Teywyl/caa-ai-product-finder/commit/74a1bda)
 - **Evidence note:** The environment changes and database setup were local operations, not committed source changes. The commit links identify the related implementation and tests; the results came from the commands I ran.
 
+### 2026-10-03 to 2026-10-04 — Correcting filenames and setup instructions
+
+- **Tool:** ChatGPT
+- **What I asked for:** Guidance for applying the revised application files and resolving startup errors.
+- **What it gave back:** Suggested code, filenames, commands and explanations for running the client, API and database.
+- **What I kept, what I changed, and why:** I corrected filenames so they matched the application's imports: `design.css` to `designs.css`, `Items.jsx` to `Item.jsx`, `ProductRepo.js` to `productsRepo.js`, and `CompatibilityRepo.js` to `compatibilityRepo.js`. I also corrected malformed environment-file options to `--env-file=.env`. These corrections taught me why exact filenames and command syntax matter.
+- **Related commits:** [Stylesheet filename](https://github.com/Teywyl/caa-ai-product-finder/commit/c1d734c), [Item page filename](https://github.com/Teywyl/caa-ai-product-finder/commit/924d6f0), [Products repository filename](https://github.com/Teywyl/caa-ai-product-finder/commit/df07ceb), [Compatibility repository filename](https://github.com/Teywyl/caa-ai-product-finder/commit/b63d9a1), [Server script corrections](https://github.com/Teywyl/caa-ai-product-finder/commit/89db528)
+
+### 2026-10-04 — Writing the revised product catalogue myself
+
+- **Tool:** ChatGPT
+- **What I asked for:** A review of the revised seed file that I wrote myself.
+- **What it gave back:** Checks of the SQL structure, record relationships, marketplace links and compatibility year ranges.
+- **What I kept, what I changed, and why:** I independently wrote the revised catalogue entries in `server/db/seed.sql`, building on the existing database structure. I gathered product information and marketplace links, identified the brands, models and categories, and confirmed compatibility years with the shop. The revised catalogue contains 26 products, 46 marketplace links and 31 compatibility records. Of those compatibility records, 24 are confirmed and 7 still need verification. I used AI's review to check my work.
+- **Related file:** [Product catalogue seed](https://github.com/Teywyl/caa-ai-product-finder/blob/main/server/db/seed.sql)
+
+### 2026-10-04 — Correcting the catalogue tests myself
+
+- **Tool:** ChatGPT
+- **What I asked for:** Help understanding why a compatibility test still failed after I had already corrected it.
+- **What it gave back:** An explanation of the assertion failure and, after I requested a repository check, confirmation that my correction was already committed on GitHub.
+- **What I kept, what I changed, and why:** I independently updated the expected product count to 26 in `server/test/api.test.js`. I also changed `assert.equal(first.record.yearTo, null)` to `assert.equal(first.record.yearTo, 2026)` in `server/test/compatibility-search.test.js`, matching the ending year I confirmed with the shop. AI initially repeated a correction I had already made. The remaining problem was an older copy in Codespaces. I pulled my changes and ran the tests again: all 62 passed with 0 failures.
+- **Related files:** [API tests](https://github.com/Teywyl/caa-ai-product-finder/blob/main/server/test/api.test.js), [Compatibility tests](https://github.com/Teywyl/caa-ai-product-finder/blob/main/server/test/compatibility-search.test.js)
+
+### 2026-10-04 — Checking and recovering the local database
+
+- **Tool:** ChatGPT
+- **What I asked for:** Help resolving database connection errors and restarting PostgreSQL.
+- **What it gave back:** Commands for checking database readiness, inspecting tables and recovering the Docker container using its existing storage volume.
+- **What I kept, what I changed, and why:** During the initial setup, I checked the database and confirmed that it had no tables. The earlier guidance had not established this before account creation, which failed because the `users` table did not exist. I followed the setup guidance and corrected the connection configuration. Later, when the container failed to restart, I inspected its storage volume and used the suggested recovery commands. I learned to check the client, API and database separately rather than assume one running service means the whole application is ready.
+- **Evidence:** My terminal checks and the successful server test run on October 4, 2026.
+
 ## 2. Where the AI got it wrong
 
 ### Case 1 — Unclear instructions for the API exports
@@ -114,6 +146,19 @@ I will add other specific cases when I have corrected and committed them.
 
 ### Written by me
 
+- **File:** `server/db/seed.sql`
+- **What I wrote:** I independently wrote the revised catalogue entries using the existing database structure. I gathered and entered the product information, brands, models, categories, marketplace links and compatibility records. I also confirmed the compatibility years with the shop and updated them myself.
+- **What it does and why it matters:** The seed file loads the catalogue into PostgreSQL. Product IDs connect each product to its marketplace links and vehicle compatibility records. My revision contains 26 products, 46 marketplace links and 31 compatibility records, with 24 confirmed and 7 awaiting verification.
+- **File link:** [Product catalogue seed](https://github.com/Teywyl/caa-ai-product-finder/blob/main/server/db/seed.sql)
+
+### Existing code I corrected myself
+
+- **Files:** `server/test/api.test.js` and `server/test/compatibility-search.test.js`
+- **What I changed:** I updated the expected product count to 26 and changed the expected compatibility ending year from `null` to `2026`. These corrections matched my revised catalogue and the years I confirmed with the shop.
+- **Other corrections:** I corrected filenames so they matched the application imports and fixed malformed `--env-file` options in the server scripts.
+- **How I checked it:** After pulling my committed changes into Codespaces, I ran `npm test`. All 62 tests passed with 0 failures on October 4, 2026.
+- **File links:** [API tests](https://github.com/Teywyl/caa-ai-product-finder/blob/main/server/test/api.test.js), [Compatibility tests](https://github.com/Teywyl/caa-ai-product-finder/blob/main/server/test/compatibility-search.test.js)
+
 ### Corrections and verification I completed
 
 On October 4, I corrected filename mismatches and package script syntax, configured the database connection, confirmed that the database was empty, initialized it, and created an admin account.
@@ -128,4 +173,8 @@ I completed these actions with AI guidance and checked the results myself. They 
 - **Query commit:** https://github.com/Teywyl/caa-ai-product-finder/commit/02a7ff0420edf11b53a23c152ef4f86c414b8e3d
 - **Route commit:** https://github.com/Teywyl/caa-ai-product-finder/commit/60d705c2b9cbbacd3340060ccd00b883d615216b
 
-This code finds products that have confirmed compatibility with the selected vehicle model and year. The route first checks whether the model exists and whether the year is valid and within the model's recorded range. It then calls the database query. The query only returns listed products with confirmed fit records. The selected year must be on or after the starting year and on or before the ending year. If the ending year is empty, the record means that compatibility continues onward. It selects one matching fit record per product so overlapping records do not display the same product twice. It also uses SQL parameters for the model and year instead of joining user input into the query text. I kept this implementation because the app should show recorded compatibility without treating unverified information as a confirmed match. A valid search with no matches returns an empty list. AI supplied this implementation. I applied it and ran the tests, including checks for year boundaries, unverified records, unlisted products and duplicate results. All 62 server tests passed on October 4, 2026.
+This code finds listed products with confirmed compatibility for the selected vehicle model and year. The route checks that the model exists and that the year is valid and within its recorded range. The database query then checks whether the selected year falls within each confirmed fit record. An empty ending year means the range continues onward. It excludes unverified records, prevents duplicate products and uses SQL parameters to keep user input separate from the query text.
+
+AI supplied this search implementation. I applied it and independently wrote the revised catalogue entries in `server/db/seed.sql`, including product information, marketplace links and compatibility years confirmed with the shop. I also corrected the tests myself by updating the expected product count to 26 and changing the expected ending year from `null` to `2026`.
+
+The test initially continued to fail because Codespaces had an older copy of my GitHub changes. After pulling my updated files, I ran the full server test suite. All 62 tests passed on October 4, 2026. This helped me understand how the search depends on accurate catalogue records and how test expectations must match intentional data changes.
