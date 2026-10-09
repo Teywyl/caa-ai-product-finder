@@ -73,7 +73,7 @@ INSERT INTO vehicle_models (
     'nissan-navara-calibre-e',
     'nissan',
     'Navara',
-    'Calibre E',
+     NULL,
     'pickup',
     2007,
     2026,
