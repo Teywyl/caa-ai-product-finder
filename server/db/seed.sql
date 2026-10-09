@@ -894,7 +894,7 @@ INSERT INTO compatibility (
     2017,
     2026,
     'confirmed',
-    'Supplied under Almera as “2017-2026”. Lazada only; the listing title is not recorded, so the year range comes from the supplied list.'
+    'CAA shop product list confirms compatibility for 2017–2026, as verified by the project owner on 2026-10-09. The marketplace listing title differs from this shop-confirmed range.''
   ),
   -- Suzuki Ertiga
   (
@@ -1044,7 +1044,7 @@ INSERT INTO compatibility (
     2001,
     2006,
     'confirmed',
-    'Supplied under CR-V. Listing title: “Honda CRV gen 2”. Years set to the gen 2 production run (2001–2006).'
+    ''CAA shop product list confirms compatibility for 2001–2006, as verified by the project owner on 2026-10-09. The supplied marketplace title states 2002–2006.''
   );
  
 COMMIT;
