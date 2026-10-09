@@ -75,44 +75,43 @@ The server still uses the template’s sightings routes and database tables. It 
 
 ## What changed this week
 
-- Starting Monday, I planned and revised the wireframes and app content. I gathered 3D model references and organized the included brands, vehicle models, item categories and marketplace links.
-
-- I applied the revised files to the existing repository. The app now follows Login → Home → Brand Garage → Vehicle and Year → Compatible Parts → Item Details and Shop Links.
-
-- I connected the React client, Express API and PostgreSQL database in Codespaces. I created an admin account, successfully signed in, and opened the browsing and management screens.
-
-- The catalogue seed now contains 3 brands, 9 vehicle models, 7 products and 11 compatibility records. Six records still need verification and are excluded from confirmed matches.
-
-- All 62 automated server tests passed, and the frontend production build completed successfully. I implemented the revision with AI-generated code and troubleshooting guidance, then applied the changes and checked the results.
+- Starting Monday, I planned and revised the wireframes and app content. I gathered 3D model references and organized the brands, vehicle models, item categories and marketplace links.
+- I manually applied the revised application files to the existing repository. The app now follows Login → Home → Brand Garage → Vehicle and Year → Compatible Parts → Item Details and Shop Links.
+- I connected the React client, Express API and PostgreSQL database in Codespaces, created an admin account and opened the main browsing and management screens.
+- I independently wrote the revised catalogue entries in `server/db/seed.sql` and confirmed compatibility years with the shop. The catalogue contains 3 brands, 9 vehicle models, 26 products, 46 marketplace links and 31 compatibility records. Twenty-four fit records are confirmed and seven await verification.
+- I corrected filenames and package scripts that did not match the application.
+- I independently updated the expected product count and compatibility ending year in the tests.
+- All 62 server tests passed with 0 failures on October 4. The frontend production build also passed.
 
 ## Why
 
-The previous sample-product browser did not match the workflow I wanted for Cabalen Auto Aircon. I wanted users to select their vehicle first and find products with confirmed compatibility records and direct shop links.
+The previous sample-product browser did not match the workflow I wanted for Cabalen Auto Aircon. I wanted users to select their vehicle first and find products with recorded, confirmed compatibility and direct shop links.
 
-The revised login and account roles also help control who can view records, edit products and manage users.
+The revised catalogue uses product information I gathered from the shop and its marketplace listings. Login and account roles control who can browse records, edit the catalogue and manage accounts.
 
 ## What broke or what I got stuck on
 
-Some filenames did not match their imports, and some package scripts needed correction.
+Some filenames did not match their imports, and some package scripts contained incorrect environment-file syntax. I corrected these during implementation.
 
-Account creation failed because the database connection used port 5432 instead of 5433. After correcting it, I found that the database tables had not been created yet. I initialized the empty database before creating the admin account.
+Account creation failed because the database connection used the wrong port. After correcting it, I checked the database and confirmed that its tables had not been created. I initialized the empty database before creating the admin account.
 
-The login page could not reach the API because the client configuration pointed to localhost on my computer. Leaving the API base URL blank allowed Vite to forward requests to the server inside Codespaces.
+The browser could not reach the API because the client configuration pointed to localhost on my computer. Leaving the API base URL blank allowed Vite to forward requests inside Codespaces.
 
-The first test run was cancelled because the separate test database did not exist. After creating it, all 62 tests passed.
+The first test run was cancelled because the separate test database did not exist. I created it and reran the tests.
 
-I also identified frontend concerns that still need review. Public deployment was postponed.
+After changing the compatibility ending year to 2026, a test still expected null. I had already corrected the assertion on GitHub, but Codespaces was running an older copy. Pulling my changes resolved the failure.
+
+The PostgreSQL container also failed to restart. I inspected its storage volume and followed AI-guided recovery commands to recreate the container using that volume.
 
 ## What is left
 
-- Complete the product details, marketplace links and compatibility verification.
-- Upload and check the licensed 3D assets and their credits.
-- Review frontend and test the mobile layouts.
-- Deploy the database and API, then connect GitHub Pages to them.
-- Test the complete deployed application.
-- Connect Gemini if time permits. The current Finder uses keyword matching.
-- Update screenshots and review the security checklist.
-- Complete the presentation materials.
-- Document a meaningful independently written code contribution.
+- Verify the seven pending compatibility records.
+- Resolve missing licensed model assets and check their credits.
+- Review frontend concerns and mobile layouts.
+- Deploy the database and API, then connect GitHub Pages.
+- Test the complete hosted application.
+- Update screenshots, documentation and the security checklist.
+- Finalize and record the presentation submission links.
+- Keep Gemini integration as a stretch goal.
 
-The revised system works in Codespaces, but the complete public deployment is not finished.
+The revised application worked locally during the confirmed checks. The complete hosted application was not finished.
