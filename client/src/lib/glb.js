@@ -398,6 +398,8 @@ export function createGlbScene(gl, parsed) {
 
   const visit = (ni, parent) => {
     const node = json.nodes[ni];
+    // Exported shadow planes distort the bounds used to frame the vehicle.
+    if (/^shadow(?:_|$)/i.test(node.name || '')) return;
     const local = node.matrix
       ? new Float32Array(node.matrix)
       : trs(node.translation, node.rotation, node.scale);
