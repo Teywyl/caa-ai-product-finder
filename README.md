@@ -12,17 +12,17 @@ Full application deployment: Not completed yet.
 
 ## Current status
 
-As of October 4, 2026:
+Documentation reviewed on October 9, 2026. The latest confirmed application checks were completed on October 4, 2026:
 
-- The React client, Express API and PostgreSQL database work together in Codespaces.
-- Admin login works.
-- Vehicle browsing, item details, Product Records and User Administration can be opened.
-- All 62 automated server tests passed.
+- The React client, Express API and PostgreSQL database worked together in Codespaces.
+- Admin login worked.
+- Vehicle browsing, item details, Product Records and User Administration could be opened.
+- All 62 automated server tests passed with 0 failures.
 - The frontend production build passed.
-- The active client uses the real API.
-- The Finder uses server-side keyword matching. Gemini is not connected.
+- The active client used the real API.
+- The Finder used server-side keyword matching. Gemini was not connected.
 
-These results verify local operation. The complete hosted application still needs deployment and testing.
+These results confirm local operation at the time of testing. Database container startup problems have occurred since then. The complete hosted application still needs deployment and testing.
 
 ## Setup and installation
 
@@ -198,16 +198,17 @@ The API normally runs on port 3000. PostgreSQL uses port 5433 in this setup; tha
 
 The garage includes available models and decorative locked slots. Locked slots cannot be selected.
 
-The starting catalogue contains:
+The revised catalogue contains:
 
 - 3 brands.
 - 9 vehicle models.
-- 7 products.
-- 11 compatibility records.
+- 26 products.
+- 46 marketplace links.
+- 31 compatibility records.
 
-Six compatibility records still need verification. They are excluded from confirmed matches.
+Twenty-four compatibility records are confirmed. Seven still need verification and are excluded from confirmed matches.
 
-A product's presence in the catalogue does not establish its current stock availability.
+A product's presence in the catalogue does not establish its current stock availability. Engine and transmission differences are not enforced as search filters.
 
 ### Account roles
 
@@ -337,6 +338,6 @@ Public hosting is planned for GitHub Pages, Render and Neon. The complete hosted
 
 Claude supplied most of the revised interface and backend code. ChatGPT/Codex reviewed files, explained implementation choices and guided troubleshooting while still explaining how things happen and why things happen.
 
-I provided the project requirements, wireframes and catalogue information, manually applied changes to this repo, configured the local environment and ran the checks.
+I provided the project requirements and wireframes, independently wrote the revised catalogue entries, gathered marketplace links and confirmed compatibility years with the shop. I manually applied the application changes, corrected filenames, scripts and test expectations, configured the local environment and ran the checks.
 
 See [AI-USAGE.md](AI-USAGE.md) for the assistance record and contribution details.
