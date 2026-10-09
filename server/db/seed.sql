@@ -4,13 +4,18 @@
 -- Running this resets catalogue data.
 -- Existing users and sessions are preserved.
 -- Prices and stock remain unconfirmed until checked.
--- Year rules: “up”, “upwards”, “current”, “latest” or an open “2018-” end in 2026;
--- “below” / “down” start from 2000.
+-- Year rules: “up”, “upwards”, “current”, “latest” or an open “2018-” end in 2026.
+-- “below” / “down” start at the vehicle's first selectable year, so a fit record
+-- never covers years the year selector can't offer.
+-- Only listing-stated fitment is 'confirmed'. 'needs_verification' records are
+-- stored but never shown as matches.
+-- Engine and transmission filtering is deferred: limits such as 1.5L, 2.0L or
+-- non-AGS are written into product names and fit sources only.
 -- TikTok links were reported as unavailable for every product, so none are stored.
 -- Create the first admin separately with npm run user:create.
-
+ 
 BEGIN;
-
+ 
 TRUNCATE
   compatibility,
   product_links,
@@ -18,12 +23,12 @@ TRUNCATE
   vehicle_models,
   brands
 RESTART IDENTITY CASCADE;
-
+ 
 INSERT INTO brands (id, name, logo_url) VALUES
   ('nissan', 'Nissan', NULL),
   ('suzuki', 'Suzuki', NULL),
   ('honda', 'Honda', NULL);
-
+ 
 INSERT INTO vehicle_models (
   id,
   brand_id,
@@ -63,12 +68,14 @@ INSERT INTO vehicle_models (
     'http://creativecommons.org/licenses/by/4.0/'
   ),
   (
+    -- Year range widened to 2007 to cover the D40 evaporator (2007-2014)
+    -- and the "Navara 2010" blower motor.
     'nissan-navara-calibre-e',
     'nissan',
     'Navara',
     'Calibre E',
     'pickup',
-    2014,
+    2007,
     2026,
     ARRAY['navara', 'np300', 'calibre', 'calibre e']::TEXT[],
     'Nissan Navara Calibre E 2021',
@@ -219,7 +226,7 @@ INSERT INTO vehicle_models (
     NULL,
     NULL
   );
-
+ 
 INSERT INTO products (
   id,
   name,
@@ -233,7 +240,7 @@ INSERT INTO products (
   -- Nissan: Terra / Navara
   (
     1,
-    'Aircon Evaporator (Cooling Coil)',
+    'Aircon Evaporator (Terra / Navara NP300)',
     'Evaporator',
     NULL,
     'Car aircon evaporator (cooling coil). Shopee listing title: “Aircon Evaporator Nissan NP300 El (2016 upwards) and Nissan Terra (2018-) Cooling coil Car aircon”.',
@@ -243,7 +250,7 @@ INSERT INTO products (
   ),
   (
     2,
-    'Fuel Filter',
+    'Fuel Filter (Terra / Navara NP300)',
     'Fuel Filter',
     '16403-4KV0A',
     'Fuel filter. Shopee listing title: “Fuel Filter Nissan Terra 2018-Up Navara NP300 Calibre 2014-Up 16403-4KV0A”.',
@@ -253,7 +260,7 @@ INSERT INTO products (
   ),
   (
     3,
-    'Cabin Filter',
+    'Cabin Filter (Terra / Navara NP300)',
     'Cabin Filter',
     NULL,
     'Aircon cabin filter. Shopee listing title: “Cabin Filter for Nissan Terra (2018-current) and Nissan Navara NP300 EL Calibre (2014-2020)”.',
@@ -263,10 +270,10 @@ INSERT INTO products (
   ),
   (
     4,
-    'Air Filter (Navara listing)',
+    'Air Filter (Navara NP300 Calibre)',
     'Air Filter',
     NULL,
-    'Air filter. Lazada-only listing supplied for the Navara Calibre E (found with the shop search “Navara Calibre E”). Listing title and year range not recorded.',
+    'Engine air filter. Lazada listing title: “[2014 - 2025 NP300 Calibre] Nissan Navara Air Filter”.',
     TRUE,
     'unconfirmed',
     NULL
@@ -283,10 +290,10 @@ INSERT INTO products (
   ),
   (
     6,
-    'Aircon Evaporator (Navara listing)',
+    'Aircon Evaporator (Navara D40)',
     'Evaporator',
     NULL,
-    'Aircon evaporator. Lazada-only listing supplied for the Navara (found with the shop search “Navara”). Listing title and year range not recorded.',
+    'Laminated aircon evaporator (cooling coil). Lazada listing title: “Nissan Navara D40 (2007-2014) Aircon Evaporator Brand New Laminated Cooling Coil”.',
     TRUE,
     'unconfirmed',
     NULL
@@ -407,10 +414,20 @@ INSERT INTO products (
   ),
   (
     18,
-    'Aircon Evaporator (Jimny listing)',
+    'Aircon Evaporator (Jimny 2021–2024)',
     'Evaporator',
     NULL,
-    'Aircon evaporator. Lazada-only listing supplied for the Jimny (found with the shop search “jimny”). Listing title and year range not recorded.',
+    'Laminated aircon evaporator (cooling coil). Lazada listing title: “Suzuki Jimny 2021-2024 AC Evaporator | Laminated Cooling Coil | Auto Aircon”.',
+    TRUE,
+    'unconfirmed',
+    NULL
+  ),
+  (
+    27,
+    'Air + Cabin Filter Combo (Jimny 2019-up)',
+    'Air Filter',
+    NULL,
+    'New combo set: engine air filter and charcoal cabin filter for the Suzuki Jimny. Lazada only for now; the filters are also sold separately on Shopee.',
     TRUE,
     'unconfirmed',
     NULL
@@ -430,8 +447,8 @@ INSERT INTO products (
     20,
     'Charcoal Cabin Filter (Honda multi-fit)',
     'Cabin Filter',
-    NULL,
-    'Charcoal aircon cabin filter. Shopee listing title: “Charcoal Cabin filter for Honda City Jazz Mobilio Brio HRV BRV Civic FC (check YR in details)”.',
+    '80291-T5R-A01',
+    'Charcoal aircon cabin filter made to OEM specifications (OEM 80291-T5R-A01). Listing details: fits Honda City GM2–GM6 (5th–6th gen), Civic FC / 10th gen (2016 up), BR-V, HR-V, Mobilio, Brio and Jazz GE / GK. Local units only.',
     TRUE,
     'unconfirmed',
     NULL
@@ -498,12 +515,12 @@ INSERT INTO products (
     'unconfirmed',
     NULL
   );
-
+ 
 SELECT setval(
   pg_get_serial_sequence('products', 'id'),
   (SELECT max(id) FROM products)
 );
-
+ 
 INSERT INTO product_links (product_id, marketplace, url) VALUES
   -- 1 Evaporator (Terra / NP300)
   (
@@ -655,24 +672,23 @@ INSERT INTO product_links (product_id, marketplace, url) VALUES
     'shopee',
     'https://shopee.ph/Aircon-Cabin-Filter-for-Suzuki-S-PRESSO-(Spresso)-(2020-2023)-NON-AGS-i.329965539.12524436697?extraParams=%7B%22display_model_id%22%3A121102623309%2C%22model_selection_logic%22%3A3%7D'
   ),
-  -- 16 Air Filter (Jimny 2019-up)
-  -- NOTE: this Lazada link was supplied for BOTH the Jimny air filter and the
-  -- Jimny cabin filter. It is stored here only. Check which product it is.
-  (
-    16,
-    'lazada',
-    'https://www.lazada.com.ph/products/pdp-i15620784062-s133634036207.html?c=&channelLpJumpArgs=&clickTrackInfo=query%253Ajimny%253Bnid%253A15620784062%253Bsrc%253AlazadaInShopSrp%253Brn%253A4ff50e2a003dba2078629da4baf3caf9%253Bregion%253Aph%253Bsku%253A15620784062_PH%253Bprice%253A589%253Bclient%253Adesktop%253Bsupplier_id%253A100090341%253Bsession_id%253A%253Bbiz_source%253Ahttps%253A%252F%252Fwww.lazada.com.ph%252F%253Bslot%253A0%253Butlog_bucket_id%253A470687%253Basc_category_id%253A23469%253Bitem_id%253A15620784062%253Bsku_id%253A133634036207%253Bshop_id%253A106849%253BtemplateInfo%253A107881_E%2523-1_A3_C%2523&freeshipping=1&fs_ab=2&fuse_fs=&lang=en&location=Pampanga&price=589&priceCompare=skuId%3A133634036207%3Bsource%3Alazada-search-voucher-in-shop%3Bsn%3A4ff50e2a003dba2078629da4baf3caf9%3BoriginPrice%3A58900%3BdisplayPrice%3A58900%3BisGray%3Afalse%3BsinglePromotionId%3A-1%3BsingleToolCode%3A-1%3BvoucherPricePlugin%3A0%3Btimestamp%3A1791100505584&ratingscore=&request_id=4ff50e2a003dba2078629da4baf3caf9&review=&sale=0&search=1&spm=a2o4l.store_keyword.list.0&stock=1'
-  ),
+  -- 16 Air Filter (Jimny 2019-up) — Shopee only; the Lazada link is the combo (27)
   (
     16,
     'shopee',
     'https://shopee.ph/Suzuki-Jimny-2019-up-Air-Filter-i.329965539.54767953444?extraParams=%7B%22display_model_id%22%3A416519603383%2C%22model_selection_logic%22%3A3%7D'
   ),
-  -- 17 Charcoal Cabin Filter (Jimny 2019-up) — Shopee only until its Lazada link is confirmed
+  -- 17 Charcoal Cabin Filter (Jimny 2019-up) — Shopee only; the Lazada link is the combo (27)
   (
     17,
     'shopee',
     'https://shopee.ph/Suzuki-Jimny-2019-up-Charcoal-Cabin-Filter-i.329965539.48918036296?extraParams=%7B%22display_model_id%22%3A351524204369%2C%22model_selection_logic%22%3A3%7D'
+  ),
+  -- 27 Air + Cabin Filter Combo (Jimny) — Lazada only
+  (
+    27,
+    'lazada',
+    'https://www.lazada.com.ph/products/pdp-i15620784062-s133634036207.html?c=&channelLpJumpArgs=&clickTrackInfo=query%253Ajimny%253Bnid%253A15620784062%253Bsrc%253AlazadaInShopSrp%253Brn%253A4ff50e2a003dba2078629da4baf3caf9%253Bregion%253Aph%253Bsku%253A15620784062_PH%253Bprice%253A589%253Bclient%253Adesktop%253Bsupplier_id%253A100090341%253Bsession_id%253A%253Bbiz_source%253Ahttps%253A%252F%252Fwww.lazada.com.ph%252F%253Bslot%253A0%253Butlog_bucket_id%253A470687%253Basc_category_id%253A23469%253Bitem_id%253A15620784062%253Bsku_id%253A133634036207%253Bshop_id%253A106849%253BtemplateInfo%253A107881_E%2523-1_A3_C%2523&freeshipping=1&fs_ab=2&fuse_fs=&lang=en&location=Pampanga&price=589&priceCompare=skuId%3A133634036207%3Bsource%3Alazada-search-voucher-in-shop%3Bsn%3A4ff50e2a003dba2078629da4baf3caf9%3BoriginPrice%3A58900%3BdisplayPrice%3A58900%3BisGray%3Afalse%3BsinglePromotionId%3A-1%3BsingleToolCode%3A-1%3BvoucherPricePlugin%3A0%3Btimestamp%3A1791100505584&ratingscore=&request_id=4ff50e2a003dba2078629da4baf3caf9&review=&sale=0&search=1&spm=a2o4l.store_keyword.list.0&stock=1'
   ),
   -- 18 Evaporator (Jimny) — Lazada only
   (
@@ -764,7 +780,7 @@ INSERT INTO product_links (product_id, marketplace, url) VALUES
     'shopee',
     'https://shopee.ph/Aircon-Evaporator-Honda-CRV-gen-2-i.329965539.16067031514?extraParams=%7B%22display_model_id%22%3A125726752701%2C%22model_selection_logic%22%3A3%7D'
   );
-
+ 
 INSERT INTO compatibility (
   product_id,
   model_id,
@@ -816,44 +832,36 @@ INSERT INTO compatibility (
     'Supplied under Navara. Listing title: “Nissan Navara NP300 EL Calibre (2014-2020)”.'
   ),
   (
-    3,
-    'nissan-navara-calibre-e',
-    2021,
-    2026,
-    'needs_verification',
-    'Supplied under the Navara Calibre E 2021 reference vehicle, but the listing title states 2014–2020. Not shown for 2021 onward until fitment is confirmed.'
-  ),
-  (
     1,
     'nissan-navara-calibre-e',
     2016,
     2026,
-    'needs_verification',
-    'Listing title also names “NP300 El (2016 upwards)”, but this listing was supplied for Terra only. Confirm Navara Calibre E fitment before enabling.'
+    'confirmed',
+    'Listing title: “Aircon Evaporator Nissan NP300 El (2016 upwards) and Nissan Terra (2018-)”. The shop states NP300 fitment from 2016.'
   ),
   (
     4,
     'nissan-navara-calibre-e',
-    NULL,
-    NULL,
-    'needs_verification',
-    'Supplied under Navara Calibre E. Lazada only; listing title and year range not recorded.'
+    2014,
+    2025,
+    'confirmed',
+    'Lazada listing title: “[2014 - 2025 NP300 Calibre] Nissan Navara Air Filter”.'
   ),
   (
     5,
     'nissan-navara-calibre-e',
-    NULL,
-    NULL,
-    'needs_verification',
-    'Supplied under Navara. Listing title mentions “Navara 2010”, which does not establish fitment for the Navara Calibre E (2021 reference vehicle).'
+    2010,
+    2010,
+    'confirmed',
+    'Supplied under Navara. Listing title: “Nissan Navara 2010 Evaporator Blower Motor Assembly”. 2010 only; the title gives no “up” range.'
   ),
   (
     6,
     'nissan-navara-calibre-e',
-    NULL,
-    NULL,
-    'needs_verification',
-    'Supplied under Navara. Lazada only; listing title and year range not recorded.'
+    2007,
+    2014,
+    'confirmed',
+    'Lazada listing title: “Nissan Navara D40 (2007-2014)”. Buyer reviews also report a fit on the Navara D40.'
   ),
   -- Nissan Almera / Versa
   (
@@ -875,10 +883,10 @@ INSERT INTO compatibility (
   (
     9,
     'nissan-almera-versa',
-    2000,
+    2013,
     2016,
     'confirmed',
-    'Supplied under Almera as “2016 below”. Listing title: “Nissan Almera (2016 below)”. “Below” is recorded as from 2000.'
+    'Supplied under Almera. Listing title: “Nissan Almera (2016 below)”. Starts at 2013, the first Almera year in the shop listings and the year selector.'
   ),
   (
     10,
@@ -950,10 +958,18 @@ INSERT INTO compatibility (
   (
     18,
     'suzuki-jimny',
-    NULL,
-    NULL,
-    'needs_verification',
-    'Supplied under Jimny. Lazada only; listing title and year range not recorded.'
+    2021,
+    2024,
+    'confirmed',
+    'Lazada listing title: “Suzuki Jimny 2021-2024 AC Evaporator”.'
+  ),
+  (
+    27,
+    'suzuki-jimny',
+    2019,
+    2026,
+    'confirmed',
+    'Combo of the Jimny air filter and charcoal cabin filter, both listed as “Suzuki Jimny 2019 up”. Confirmed by the shop as the only Lazada listing for these filters.'
   ),
   -- Honda City
   (
@@ -967,10 +983,10 @@ INSERT INTO compatibility (
   (
     20,
     'honda-city',
-    NULL,
-    NULL,
-    'needs_verification',
-    'Supplied under City. Listing title names City but says “check YR in details”, so no year range is recorded.'
+    2009,
+    2020,
+    'confirmed',
+    'Listing details: “Honda City GM2 - GM6 (5th to 6th gen)”. Years set to those generations: GM2 from 2009, GM6 until 2020.'
   ),
   (
     21,
@@ -1030,5 +1046,6 @@ INSERT INTO compatibility (
     'confirmed',
     'Supplied under CR-V. Listing title: “Honda CRV gen 2”. Years set to the gen 2 production run (2001–2006).'
   );
-
+ 
 COMMIT;
+ 
