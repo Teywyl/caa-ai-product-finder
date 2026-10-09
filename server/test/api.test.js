@@ -232,16 +232,39 @@ describe('catalogue', () => {
   })
 
   test('pending results contain unverified records only', async () => {
-    const res = await t.call(
-      '/api/models/nissan-navara-calibre-e/pending',
-      { token: tokens.viewer }
+    const { rows } = await t.db.query(
+      `INSERT INTO compatibility
+        (product_id, model_id, year_from, year_to, status, source)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING id`,
+      [
+        27,
+        'nissan-navara-calibre-e',
+        2021,
+        2026,
+        'needs_verification',
+        'Temporary unverified record for this test',
+      ]
     )
-    assert.equal(res.status, 200)
-    assert.equal(res.body.pending.length, 5)
-    assert.ok(
-      res.body.pending.every(
-        (p) => p.record.status === 'needs_verification'
+
+    try {
+      const res = await t.call(
+        '/api/models/nissan-navara-calibre-e/pending',
+        { token: tokens.viewer }
       )
+
+      assert.equal(res.status, 200)
+      assert.equal(res.body.pending.length, 1)
+      assert.equal(res.body.pending[0].record.id, rows[0].id)
+      assert.ok(
+        res.body.pending.every(
+          (p) => p.record.status === 'needs_verification'
+        )
+      )
+    } finally {
+      await t.db.query(
+        'DELETE FROM compatibility WHERE id = $1',
+        [rows[0].id]
     )
   })
 })
@@ -252,7 +275,7 @@ describe('products', () => {
       token: tokens.viewer,
     })
     assert.equal(list.status, 200)
-    assert.equal(list.body.products.length, 26)
+    assert.equal(list.body.products.length, 27)
 
     const one = await t.call('/api/products/3', {
       token: tokens.viewer,
@@ -262,7 +285,7 @@ describe('products', () => {
       one.body.product.links.shopee,
       /^https:\/\/shopee\./
     )
-    assert.equal(one.body.product.compatibility.length, 3)
+    assert.equal(one.body.product.compatibility.length, 2)
     assert.equal(one.body.product.pricePhp, null)
   })
 
