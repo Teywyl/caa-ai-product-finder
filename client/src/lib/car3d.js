@@ -946,9 +946,10 @@ export function createCarRenderer(canvas, opts = {}) {
       (width < 520 ? 0.88 : 1) *
       (colors.zoom ?? 1);
 
+    const centerY = glbScene ? glbScene.height * 0.5 : 0.48;
     const eye = [
       Math.sin(yaw) * Math.cos(pitch) * distance,
-      0.4 + Math.sin(pitch) * distance,
+      (glbScene ? centerY : 0.4) + Math.sin(pitch) * distance,
       Math.cos(yaw) * Math.cos(pitch) * distance,
     ];
 
@@ -958,7 +959,7 @@ export function createCarRenderer(canvas, opts = {}) {
         eye,
         [
           0,
-          glbScene ? Math.min(glbScene.height * 0.5, 0.8) : 0.48,
+          centerY,
           0,
         ],
         [0, 1, 0],
