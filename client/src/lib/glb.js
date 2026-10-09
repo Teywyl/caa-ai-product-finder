@@ -400,6 +400,12 @@ export function createGlbScene(gl, parsed) {
     const node = json.nodes[ni];
     // Exported shadow planes distort the bounds used to frame the vehicle.
     if (/^shadow(?:_|$)/i.test(node.name || '')) return;
+    // This export has seven detached slivers outside the S-Presso body.
+    // Ignore only those known nodes so they cannot move its rotation center.
+    if (
+      json.asset?.extras?.source?.endsWith('eee53feaf00741f0a5e5535cad0dcae4') &&
+      /^body blk\.(006|012|025|026|028|029|030)(?:_|$)/.test(node.name || '')
+    ) return;
     const local = node.matrix
       ? new Float32Array(node.matrix)
       : trs(node.translation, node.rotation, node.scale);
