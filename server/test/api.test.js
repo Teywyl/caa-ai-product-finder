@@ -255,12 +255,9 @@ describe('catalogue', () => {
 
       assert.equal(res.status, 200)
       assert.equal(res.body.pending.length, 1)
-      assert.equal(res.body.pending[0].record.id, rows[0].id)
-      assert.ok(
-        res.body.pending.every(
-          (p) => p.record.status === 'needs_verification'
-        )
-      )
+      assert.equal(res.body.pending[0].record.id, Number(rows[0].id))
+      assert.ok(res.body.pending.every((p) => p.record.status === 'needs_verification'))
+      
     } finally {
       await t.db.query(
         'DELETE FROM compatibility WHERE id = $1',
