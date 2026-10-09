@@ -35,7 +35,7 @@ describe('confirmed compatibility query', () => {
       2020
     )
 
-    assert.equal(first.product.name, 'Cabin Filter')
+    assert.equal(first.product.name, 'Cabin Filter (Terra / Navara NP300)')
     assert.equal(first.product.category, 'Cabin Filter')
     assert.match(
       first.product.links.shopee,
@@ -66,32 +66,70 @@ describe('confirmed compatibility query', () => {
   })
 
   test('a null ending year means onward', async () => {
-    const matches = await findCompatibleProducts(
-      t.db,
-      'nissan-navara-calibre-e',
-      2026
+    const { rows } = await t.db.query(
+      `INSERT INTO compatibility
+        (product_id, model_id, year_from, year_to, status, source)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING id`,
+      [
+        27,
+        'nissan-terra',
+        2020,
+        null,
+        'confirmed',
+        'Temporary open-ended record for this test',
+      ]
     )
-    assert.ok(ids(matches).includes(2))
-  })
 
-  test('years before the starting year do not match', async () => {
-    assert.deepEqual(
-      await findCompatibleProducts(
+    try {
+      const matches = await findCompatibleProducts(
         t.db,
-        'nissan-navara-calibre-e',
-        2013
-      ),
-      []
-    )
+        'nissan-terra',
+        2026
+      )
+
+      const match = matches.find((m) => m.product.id === 27)
+      assert.ok(match)
+      assert.equal(match.record.yearTo, null)
+    } finally {
+      await t.db.query(
+        'DELETE FROM compatibility WHERE id = $1',
+        [rows[0].id]
+      )
+    }
   })
 
   test('unverified records are excluded', async () => {
-    const matches = await findCompatibleProducts(
-      t.db,
-      'nissan-navara-calibre-e',
-      2021
+    const { rows } = await t.db.query(
+      `INSERT INTO compatibility
+        (product_id, model_id, year_from, year_to, status, source)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING id`,
+      [
+        27,
+        'nissan-terra',
+        2018,
+        2026,
+        'needs_verification',
+        'Temporary unverified record for this test',
+      ]
     )
-    assert.deepEqual(ids(matches), [2])
+
+    try {
+      const matches = await findCompatibleProducts(
+        t.db,
+        'nissan-terra',
+        2020
+      )
+
+      assert.deepEqual(ids(matches), [3, 1, 2])
+      assert.ok(!ids(matches).includes(27))
+    } finally {
+      await t.db.query(
+        'DELETE FROM compatibility WHERE id = $1',
+        [rows[0].id]
+      )
+    }
   })
 
   test('unlisted products are excluded', async () => {
@@ -136,9 +174,9 @@ describe('confirmed compatibility query', () => {
     }
   })
 
-  test('models without confirmed fits return an empty array', async () => {
+  test('a year without confirmed fits returns an empty array', async () => {
     assert.deepEqual(
-      await findCompatibleProducts(t.db, 'honda-city', 2020),
+      await findCompatibleProducts(t.db, 'honda-city', 2024),
       []
     )
   })
@@ -171,7 +209,7 @@ describe('vehicle product-search route', () => {
 
   test('no confirmed fits returns 200 with an empty list', async () => {
     const res = await get(
-      '/api/models/honda-city/products?year=2020'
+      '/api/models/honda-city/products?year=2024'
     )
     assert.equal(res.status, 200)
     assert.deepEqual(res.body.matches, [])
