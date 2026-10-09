@@ -99,6 +99,17 @@ describe('confirmed compatibility query', () => {
     }
   })
 
+  test('years before the starting year do not match', async () => {
+    assert.deepEqual(
+      await findCompatibleProducts(
+        t.db,
+        'nissan-terra',
+        2017
+      ),
+      []
+    )
+  })
+  
   test('unverified records are excluded', async () => {
     const { rows } = await t.db.query(
       `INSERT INTO compatibility
