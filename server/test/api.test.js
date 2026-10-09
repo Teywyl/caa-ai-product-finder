@@ -265,7 +265,8 @@ describe('catalogue', () => {
       await t.db.query(
         'DELETE FROM compatibility WHERE id = $1',
         [rows[0].id]
-    )
+      )
+    }
   })
 })
 
