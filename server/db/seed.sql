@@ -65,7 +65,7 @@ INSERT INTO vehicle_models (
     'Asadawut.Kaewma',
     'https://sketchfab.com/Asadawut.Kaewma',
     'CC BY 4.0',
-    'http://creativecommons.org/licenses/by/4.0/'
+    'https://creativecommons.org/licenses/by/4.0/'
   ),
   (
     -- Year range widened to 2007 to cover the D40 evaporator (2007-2014)
@@ -78,15 +78,15 @@ INSERT INTO vehicle_models (
     2007,
     2026,
     ARRAY['navara', 'np300', 'calibre', 'calibre e']::TEXT[],
-    'Nissan Navara Calibre E 2021',
+    'Nissan Navara 2021 Calibre E',
     2021,
     'https://sketchfab.com/3d-models/nissan-navara-2021-calibre-e-2a877fdf866b4dbb8b0aa4dd9ef2319d',
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    'models/nissan-navara-2021.glb',
+    'Nissan Navara 2021 Calibre E',
+    'Asadawut.Kaewma',
+    'https://sketchfab.com/Asadawut.Kaewma',
+    'CC BY 4.0',
+    'https://creativecommons.org/licenses/by/4.0/'
   ),
   (
     -- Variant cleared: the supplied Almera parts are for 1.2L / 1.5L engines,
@@ -99,15 +99,15 @@ INSERT INTO vehicle_models (
     2013,
     2026,
     ARRAY['almera', 'versa']::TEXT[],
-    'Nissan Versa sedan 1.6, 2015',
+    '2015 Nissan Versa Sedan 1.6 (Almera visual reference)',
     2015,
     'https://sketchfab.com/3d-models/2015-nissan-versa-sedan-16-18af87c9490e4acb80a46b70ca8d86ed',
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    'models/nissan-versa-2015.glb',
+    '2015 Nissan Versa Sedan 1.6',
+    'Ddiaz Design',
+    'https://sketchfab.com/ddiaz-design',
+    'CC BY-NC-SA 4.0',
+    'https://creativecommons.org/licenses/by-nc-sa/4.0/'
   ),
   (
     'suzuki-ertiga',
@@ -118,15 +118,15 @@ INSERT INTO vehicle_models (
     2012,
     2026,
     ARRAY['ertiga']::TEXT[],
-    'Suzuki Ertiga 2022',
+    '2022 Suzuki Ertiga',
     2022,
     'https://sketchfab.com/3d-models/2022-suzuki-ertiga-4f14afac3ac44ec4a2fb153e18452f8b',
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    'models/suzuki-ertiga-2022.glb',
+    '2022 Suzuki Ertiga',
+    'BHP3D',
+    'https://sketchfab.com/BHP3D',
+    'CC BY 4.0',
+    'https://creativecommons.org/licenses/by/4.0/'
   ),
   (
     'suzuki-s-presso',
@@ -140,12 +140,12 @@ INSERT INTO vehicle_models (
     'Suzuki S-Presso',
     NULL,
     'https://sketchfab.com/3d-models/suzuki-s-presso-eee53feaf00741f0a5e5535cad0dcae4',
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    'models/suzuki-s-presso.glb',
+    'Suzuki S-Presso',
+    'BHP3D',
+    'https://sketchfab.com/BHP3D',
+    'CC BY 4.0',
+    'https://creativecommons.org/licenses/by/4.0/'
   ),
   (
     'suzuki-jimny',
@@ -176,18 +176,17 @@ INSERT INTO vehicle_models (
     2009,
     2026,
     ARRAY['city']::TEXT[],
-    'Honda City 2022',
-    2022,
-    'https://sketchfab.com/3d-models/honda-city-2022-322b45e01411412f9951ac4766550653',
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    'Honda City 2017',
+    2017,
+    'https://sketchfab.com/3d-models/honda-city-2017-75671276d4da476294202a5dc050a99e',
+    'models/honda-city-2017.glb',
+    'Honda City 2017',
+    'dewa',
+    'https://sketchfab.com/dewa',
+    'CC BY 4.0',
+    'https://creativecommons.org/licenses/by/4.0/'
   ),
   (
-    -- Replaces the earlier Civic Type R (2017+) entry with the Civic FD.
     'honda-civic-fd',
     'honda',
     'Civic',
@@ -196,18 +195,17 @@ INSERT INTO vehicle_models (
     2006,
     2011,
     ARRAY['civic', 'civic fd', 'fd', 'fd2', 'type r', 'civic type r']::TEXT[],
-    'Honda Civic Type R FD2 2009 (custom)',
+    '2009 Honda Civic Type R (FD2) Custom',
     2009,
     'https://sketchfab.com/3d-models/2009-honda-civic-type-r-fd2-custom-0669282e31c049478aea166e47a3ebd6',
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    'models/honda-civic-fd2-2009.glb',
+    '2009 Honda Civic Type R (FD2) Custom',
+    'DisneyCars',
+    'https://sketchfab.com/supercarmodels',
+    'CC BY 4.0',
+    'https://creativecommons.org/licenses/by/4.0/'
   ),
   (
-    -- Year range widened to 2001 to cover the gen 2 evaporator and gen 3/4 cabin filters.
     'honda-cr-v',
     'honda',
     'CR-V',
@@ -219,12 +217,12 @@ INSERT INTO vehicle_models (
     'Honda CR-V',
     NULL,
     'https://sketchfab.com/3d-models/honda-cr-v-4d0751311d76473b81377f5bd2da273b',
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
+    'models/honda-cr-v.glb',
+    'Honda CR-V',
+    'karaman.arman',
+    'https://sketchfab.com/karaman.arman',
+    'CC BY 4.0',
+    'https://creativecommons.org/licenses/by/4.0/'
   );
  
 INSERT INTO products (
@@ -339,7 +337,6 @@ INSERT INTO products (
     'unconfirmed',
     NULL
   ),
-  -- Suzuki: Ertiga
   (
     11,
     'Air Filter (Ertiga 2019-up)',
