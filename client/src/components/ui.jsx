@@ -1,5 +1,5 @@
 import hondaLogo from '../assets/brands/honda.png'
-import nissanLogo from '../assets/brands/nissan.png'
+import nissanLogo from '../assets/brands/nissan-transparent.png'
 import suzukiLogo from '../assets/brands/suzuki.png'
 import {
   CategoryArt,
@@ -107,9 +107,15 @@ export function AvailabilityLine({ product, compact = false }) {
   )
 }
 
-const BRAND_LOGOS = { honda: hondaLogo, nissan: nissanLogo, suzuki: suzukiLogo }
+// Frame the emblem itself, excluding each PNG's empty outer margins.
+const BRAND_LOGOS = {
+  honda: { src: hondaLogo, width: 2126, height: 806, viewBox: '628 31 920 750', size: '78%' },
+  nissan: { src: nissanLogo, width: 1438, height: 1093, viewBox: '198 88 1032 894', size: '66%' },
+  suzuki: { src: suzukiLogo, width: 3840, height: 2160, viewBox: '933 15 1985 2118', size: '78%' },
+}
 
 export function BrandMark({ brand, size = 'md' }) {
+  const logo = BRAND_LOGOS[brand.id]
   if (brand.logoUrl) {
     return (
       <span className={`brand-mark brand-mark--${size} brand-mark--img`}>
@@ -123,12 +129,17 @@ export function BrandMark({ brand, size = 'md' }) {
       className={`brand-mark brand-mark--${size}`}
       aria-hidden="true"
     >
-      {BRAND_LOGOS[brand.id] ? (
-        <img
-          src={BRAND_LOGOS[brand.id]}
-          alt=""
-          style={{ width: '66%', height: '66%', objectFit: 'contain', display: 'block' }}
-        />
+      {logo ? (
+        <svg
+          viewBox={logo.viewBox}
+          width={logo.size}
+          height={logo.size}
+          preserveAspectRatio="xMidYMid meet"
+          focusable="false"
+          aria-hidden="true"
+        >
+          <image href={logo.src} width={logo.width} height={logo.height} />
+        </svg>
       ) : brand.name.slice(0, 1)}
     </span>
   )
