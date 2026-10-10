@@ -44,8 +44,9 @@ export function Login({ onSignedIn, notice }) {
           <div className="login-brand-art" aria-hidden="true">
             <Arc360 />
             <Car3D
-              body="suv"
-              label="3D preview of an SUV"
+              body="sedan"
+              modelUrl={`${import.meta.env.BASE_URL}models/ferrari-f40.glb`}
+              label="3D preview of the LB-Works Ferrari F40"
               interactive={false}
               design={design}
               distance={6.4}
@@ -53,6 +54,10 @@ export function Login({ onSignedIn, notice }) {
           </div>
           <p className="login-brand-note">
             For family and authorized staff only.
+          </p>
+          <p className="small">
+            3D model: <a href="https://sketchfab.com/heynic" target="_blank" rel="noreferrer">vecarz</a>
+            {' · '}<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 4.0</a>
           </p>
         </aside>
 
