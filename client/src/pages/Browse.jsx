@@ -116,7 +116,7 @@ export function Home({ navigate }) {
     <div className="stack-xl">
       <section className="hero on-dark" aria-labelledby="hero-title">
         <span className="hero-word" aria-hidden="true">
-          {(last ? last.name : 'Cabalen').toUpperCase()}
+          CABALEN
         </span>
         <div className="hero-copy">
           <p className="eyebrow eyebrow--light">
