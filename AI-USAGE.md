@@ -95,6 +95,46 @@ I used ChatGPT while building CAA AI Product Finder. It helped me plan changes, 
 - **What I kept, what I changed, and why:** During the initial setup, I checked the database and confirmed that it had no tables. The earlier guidance had not established this before account creation, which failed because the `users` table did not exist. I followed the setup guidance and corrected the connection configuration. Later, when the container failed to restart, I inspected its storage volume and used the suggested recovery commands. I learned to check the client, API and database separately rather than assume one running service means the whole application is ready.
 - **Evidence:** My terminal checks and the successful server test run on October 4, 2026.
 
+### 2026-10-09 — Deploying the API and database
+
+- **Tool:** ChatGPT/Codex
+- **What I asked for:** Help deploying the application so it could work through the live website.
+- **What it gave back:** Instructions for configuring Render, connecting Neon PostgreSQL, migrating the database and connecting the GitHub Pages frontend to the hosted API.
+- **What I kept, what I changed, and why:** I followed the deployment instructions, configured the hosting services and ran the migration commands myself. I checked the database output, which showed 9 vehicles and 27 products, and confirmed that I could sign in through the deployed website.
+- **Evidence note:** Hosting settings and database migration were operations I performed with AI guidance. Private connection strings are not included in this document.
+
+### 2026-10-09 to 2026-10-10 — Uploading and correcting the vehicle models
+
+- **Tool:** ChatGPT/Codex
+- **What I asked for:** Help displaying the downloaded vehicle models and fixing models that were missing, too small or not centered.
+- **What it gave back:** Instructions for checking tracked files, uploading the models, reducing the large CR-V file and correcting the viewer's framing.
+- **What I kept, what I changed, and why:** I downloaded, organized, renamed and uploaded the model files. I updated their references and checked the displayed results. Codex directly changed the viewer code to exclude the Honda City's exported shadow geometry, adjust the camera target and ignore detached geometry affecting the S-Presso's center. I reported when the first S-Presso correction did not solve the problem.
+- **Contribution note:** I supplied and uploaded the models and reported the visual problems. The viewer fixes and file-reduction method were AI-assisted work, not code I independently wrote.
+
+### 2026-10-10 — Updating the brand logos
+
+- **Tool:** ChatGPT/Codex and AI image editing
+- **What I asked for:** Replace the brand initials with my supplied logos, keep the badge sizes, remove Nissan's background and enlarge the Honda and Suzuki logos.
+- **What it gave back:** Shared logo component changes and a transparent-background version of the Nissan logo.
+- **What I kept, what I changed, and why:** I selected and supplied the logo files, uploaded the assets and reviewed their appearance. Codex connected the images and adjusted their framing. The Nissan background removal used AI image editing.
+- **Contribution note:** The logo selection and visual feedback were mine. The component changes and background edit were produced by AI.
+
+### 2026-10-10 — Keeping CABALEN on Home
+
+- **Tool:** ChatGPT/Codex
+- **What I asked for:** Help returning to the original Home appearance after selecting a brand and model.
+- **What it gave back:** A repository check showing that Home replaced CABALEN with the last selected model's name.
+- **What I kept, what I changed, and why:** Codex changed the heading to remain CABALEN. I refreshed the deployed app and confirmed that the result was correct.
+- **Commit:** https://github.com/Teywyl/caa-ai-product-finder/commit/c8f17473a4944868d9033392e6f5fb7f4923596e
+
+### 2026-10-10 — Changing the login car to the Ferrari F40
+
+- **Tool:** ChatGPT/Codex
+- **What I asked for:** Use my supplied Ferrari F40 model on the login page.
+- **What it gave back:** A model compatibility check, upload guidance and a change connecting the GLB file to the login preview.
+- **What I kept, what I changed, and why:** I selected the model and uploaded it through Codespaces. When my push was rejected because the remote contained newer changes, I followed the pull-and-rebase guidance and pushed successfully. Codex connected the uploaded file using the Vite base path and added its creator and license credit.
+- **Commit:** https://github.com/Teywyl/caa-ai-product-finder/commit/2097a0d71588c635e4e8109d298c75ce16a82e3c
+
 ## 2. Where the AI got it wrong
 
 ### Case 1 — Unclear instructions for the API exports
@@ -142,6 +182,24 @@ I will add other specific cases when I have corrected and committed them.
   - https://github.com/Teywyl/caa-ai-product-finder/commit/74a1bda
 - **Evidence note:** The local configuration corrections are intentionally untracked.
 
+### Case 6 — Repeating a correction I had already made
+
+- **What it gave me:** Instructions to correct a compatibility test assertion.
+- **What was wrong with it:** I had already corrected the assertion on GitHub. The remaining problem was that Codespaces had an older copy.
+- **What I did instead:** I asked for a repository check and pulled my committed changes. The tests then passed. My correction was already right; the local files needed updating.
+
+### Case 7 — An incomplete S-Presso centering fix
+
+- **What it gave me:** A camera-target adjustment intended to improve model centering.
+- **What was wrong with it:** The S-Presso was still off-center because detached geometry affected its calculated bounds.
+- **What I did instead:** I checked the displayed result and reported that the problem remained. Codex then inspected the export and applied a more specific correction. I did not accept the first change as complete just because the code had changed.
+
+### Case 8 — An interrupted Ferrari upload
+
+- **What it gave me:** An attempt to upload the Ferrari model directly.
+- **What was wrong with it:** The upload was interrupted, so the model had not been added to the repository and the login preview was not yet connected.
+- **What I did instead:** I placed the file in Codespaces, committed it and pushed it myself using the supplied commands. Codex connected it only after the file was present in the repository.
+
 ## 3. Who wrote what
 
 ### Written by me
@@ -178,3 +236,21 @@ This code finds listed products with confirmed compatibility for the selected ve
 AI supplied this search implementation. I applied it and independently wrote the revised catalogue entries in `server/db/seed.sql`, including product information, marketplace links and compatibility years confirmed with the shop. I also corrected the tests myself by updating the expected product count to 26 and changing the expected ending year from `null` to `2026`.
 
 The test initially continued to fail because Codespaces had an older copy of my GitHub changes. After pulling my updated files, I ran the full server test suite. All 62 tests passed on October 4, 2026. This helped me understand how the search depends on accurate catalogue records and how test expectations must match intentional data changes.
+
+### My independent decisions and work
+
+I chose the app's purpose, users and vehicle-first workflow. I prepared the requirements and wireframes, independently wrote the revised catalogue entries, gathered marketplace links and confirmed compatibility years with the shop. I also corrected filename and package-script problems and updated the catalogue test expectations.
+
+I selected the vehicle models, brand logos and Ferrari login model. I checked the interface and reported problems that still needed fixing.
+
+### Work I completed with AI guidance
+
+I carried out the local setup, database migration, hosting configuration, model uploads and Git commands with AI guidance. I ran the checks and supplied the actual terminal output rather than assuming the instructions had worked.
+
+I personally created the three role accounts and deleted the old account.
+
+### Verification limits
+
+All 62 server tests and the full frontend build passed on October 4, 2026. Later visual changes received focused code checks. I confirmed deployed login, the corrected CABALEN heading and the account changes, but this does not mean every deployed feature and role was retested after every change.
+
+The earlier catalogue counts in this document describe the earlier revision. The current seed file contains 27 products and 31 compatibility records marked confirmed. A final deployed review and updated screenshots are still needed.
