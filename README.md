@@ -8,21 +8,32 @@ Editors and Admins can maintain products, shop links and compatibility records. 
 
 Project repository: https://github.com/Teywyl/caa-ai-product-finder
 
-Full application deployment: Not completed yet.
+Live website: https://teywyl.github.io/caa-ai-product-finder/
+
+API health: https://caa-product-finder-api.onrender.com/healthz
+
+Database readiness: https://caa-product-finder-api.onrender.com/readyz
+
+Full application deployment: The frontend is hosted on GitHub Pages, the Express API on Render and the PostgreSQL database on Neon.
 
 ## Current status
 
-Documentation reviewed on October 9, 2026. The latest confirmed application checks were completed on October 4, 2026:
+Documentation updated on October 11, 2026.
 
-- The React client, Express API and PostgreSQL database worked together in Codespaces.
-- Admin login worked.
-- Vehicle browsing, item details, Product Records and User Administration could be opened.
-- All 62 automated server tests passed with 0 failures.
-- The frontend production build passed.
-- The active client used the real API.
-- The Finder used server-side keyword matching. Gemini was not connected.
+- The React client, Express API and PostgreSQL database are deployed and connected.
+- I successfully signed in through the deployed website.
+- The migrated database check showed 9 vehicle models and 27 products.
+- Three accounts were created for the Admin, Editor and Viewer roles, and the previous account was deleted.
+- All nine catalogue model files and the Ferrari F40 login model are committed to the repository.
+- Viewer fixes were added for Honda City framing and S-Presso centering.
+- The brand initials were replaced with Honda, Nissan and Suzuki logos.
+- Home keeps the CABALEN heading after selecting a vehicle.
+- The active client uses the real API.
+- The Finder uses server-side keyword matching. Gemini is not connected.
 
-These results confirm local operation at the time of testing. Database container startup problems have occurred since then. The complete hosted application still needs deployment and testing.
+All 62 automated server tests passed with 0 failures, and the full frontend production build passed on October 4, 2026. Later visual changes received focused code checks. These results do not represent a new full test run after every change.
+
+Final deployed workflow checks, role-permission checks, mobile review and updated screenshots remain to be completed.
 
 ## Setup and installation
 
@@ -106,6 +117,8 @@ This creates the tables and loads the starting catalogue.
 
 **This command deletes and rebuilds the app's tables, including accounts. Do not run it against data you need to keep.**
 
+The current seed file has malformed quotation marks in some compatibility source notes. These need correction before using it for a fresh database setup. The existing deployed database is separate from this source-file issue.
+
 The database contains tables for:
 
 - Users and sessions.
@@ -123,7 +136,7 @@ npm run user:create -- --name "Shop Admin" --email "admin@example.com" --role ad
 
 Replace the example name and email with your account details. Enter a private password of 10 to 200 characters when prompted.
 
-There are no default login credentials.
+There are no default login credentials. Additional accounts are created through User Administration by an Admin.
 
 ### Install client dependencies
 
@@ -163,6 +176,17 @@ Real credentials belong in untracked environment files or hosting settings. Valu
 
 The revised client does not use the old `VITE_USE_MOCK_API` switch.
 
+The deployed application uses:
+
+- GitHub Pages for the client, built through GitHub Actions.
+- Render for the API, using `server` as the root directory, `npm ci` as the build command and `npm start` as the start command.
+- Neon for PostgreSQL.
+- `VITE_API_BASE_URL=https://caa-product-finder-api.onrender.com` for the deployed client build.
+- `CORS_ORIGINS=https://teywyl.github.io`, `SESSION_HOURS=12` and `NODE_ENV=production` for the hosted API.
+- A private `DATABASE_URL` configured in the API hosting settings.
+
+Changes to the client trigger the GitHub Pages workflow. Changes made directly on GitHub should be pulled into Codespaces before continuing local work.
+
 ## How to run it
 
 Start the API in one terminal:
@@ -181,9 +205,15 @@ npm run dev -- --host 0.0.0.0
 
 Open `http://localhost:5173/` locally. In Codespaces, open the forwarded browser address for port 5173.
 
-The first screen is Login. Sign in with the account created earlier. Keep both terminals running while using the app.
+The first screen is Login. Sign in with the account created earlier. Keep both terminals running while using the local app.
 
 The API normally runs on port 3000. PostgreSQL uses port 5433 in this setup; that port is not a website.
+
+To use the deployed application, open:
+
+https://teywyl.github.io/caa-ai-product-finder/
+
+Codespaces does not need to remain open for the deployed application. The Render free service may take time to wake up after inactivity.
 
 ## Features and usage
 
@@ -198,17 +228,19 @@ The API normally runs on port 3000. PostgreSQL uses port 5433 in this setup; tha
 
 The garage includes available models and decorative locked slots. Locked slots cannot be selected.
 
-The revised catalogue contains:
+The current seed file contains:
 
 - 3 brands.
 - 9 vehicle models.
-- 26 products.
+- 27 products.
 - 46 marketplace links.
 - 31 compatibility records.
 
-Twenty-four compatibility records are confirmed. Seven still need verification and are excluded from confirmed matches.
+All 31 compatibility records in the current seed are marked confirmed. Earlier reports recorded 26 products and seven unverified compatibility records; those figures describe the earlier revision. These counts describe the current source file, not a fresh query of every deployed database table.
 
-A product's presence in the catalogue does not establish its current stock availability. Engine and transmission differences are not enforced as search filters.
+Unverified compatibility records, if added, are stored separately and excluded from confirmed matches.
+
+A product's presence in the catalogue does not establish its current stock availability. Engine and transmission differences are not enforced as search filters. Users should read the product details and fit restrictions before opening the marketplace listing.
 
 ### Account roles
 
@@ -218,7 +250,9 @@ A product's presence in the catalogue does not establish its current stock avail
 | Editor | Viewer access plus product, shop-link and compatibility management. |
 | Admin | Editor access plus account administration. |
 
-Passwords are hashed on the server. Protected API routes check the session and required role.
+Passwords are hashed with scrypt on the server. Protected API routes check the session and required role.
+
+Three accounts were created for the Admin, Editor and Viewer roles, and the previous account was deleted. Account information will be submitted privately through Canvas in a text file. Login credentials are not published in this repository.
 
 ### Finder
 
@@ -234,9 +268,13 @@ Gemini is not connected. The Finder does not generate new compatibility claims.
 
 ### Vehicle previews
 
-The interface supports interactive vehicle previews. Generic shapes are used where an exact model asset is unavailable.
+The interface supports interactive vehicle previews. Generic shapes are used where an exact model asset is unavailable or cannot be loaded.
 
-Installing the required licensed 3D assets and checking their credits in the public repository remain unfinished.
+All nine catalogue model files are committed under `client/public/models/`. The large CR-V file was reduced for upload. Viewer corrections were added for Honda City framing and S-Presso centering.
+
+The login page uses the uploaded Ferrari F40 model. It includes credit to vecarz and a link to the model's CC BY-NC-SA 4.0 license.
+
+The models are visual references and do not establish parts compatibility. Large files can take time to download. Final checks of model displays, credits and license conditions remain part of the submission review.
 
 ### Main API endpoints
 
@@ -293,6 +331,8 @@ Verified on October 4, 2026:
 
 The tests cover authentication, permissions, catalogue access, product management, account administration and compatibility-search behavior.
 
+Later viewer, branding and Ferrari login changes received focused code checks. Deployed login, the corrected CABALEN heading and the account changes were confirmed separately. A complete final test of all roles and deployed workflows is still pending.
+
 ## Project structure
 
 | Path | Contents |
@@ -301,11 +341,13 @@ The tests cover authentication, permissions, catalogue access, product managemen
 | `client/src/pages/` | Login, browsing, vehicle, item, Finder and management screens. |
 | `client/src/components/` | Shared interface and vehicle preview components. |
 | `client/src/api/` | API requests and session handling. |
-| `client/src/context/` | Shared application state. |
-| `client/src/lib/` | Navigation and catalogue helpers. |
+| `client/src/lib/AppState.jsx` | Shared application state. |
+| `client/src/lib/` | Navigation, catalogue helpers and model rendering. |
 | `client/src/styles.css` | Shared styling. |
 | `client/src/designs.css` | Interface themes. |
 | `client/src/luxe.css` | Additional visual styling. |
+| `client/src/assets/brands/` | Brand logo images. |
+| `client/public/models/` | Catalogue models and the Ferrari login model. |
 | `server/server.js` | API startup. |
 | `server/src/app.js` | Express application and middleware. |
 | `server/src/routes/` | API route handlers. |
@@ -318,26 +360,32 @@ The tests cover authentication, permissions, catalogue access, product managemen
 
 ## Screenshots
 
-![Current CAA product browser](docs/screenshot.png)
+The screenshot below shows an earlier interface revision. Updated screenshots will be added after the remaining feedback fixes.
+
+![Earlier CAA product browser](docs/screenshot.png)
 
 ## Known issues and next steps
 
-- Deploy the database and API, then connect the public frontend.
-- Test the complete deployed workflow.
-- Finish product details, marketplace links and compatibility verification.
-- Upload and verify licensed 3D assets and their credits.
+- Correct the malformed quotation marks in some seed-file compatibility notes before running a fresh database setup.
+- Test the complete deployed workflow and permissions for all three roles.
+- Review product details, marketplace links and compatibility restrictions.
+- Verify every model's display, credit and license conditions.
 - Review frontend concerns and mobile layouts.
 - Replace outdated screenshots.
-- Review the security checklist against the revised implementation.
-- Connect Gemini if time permits, keeping results grounded in CAA records.
-- Complete the presentation materials.
+- Complete the security checklist and current dependency checks.
+- Add the final demonstration link and update the private course-workspace pointer.
+- Keep Gemini integration as a stretch goal.
 
-Public hosting is planned for GitHub Pages, Render and Neon. The complete hosted system has not been verified yet.
+The frontend, API and database are deployed. The remaining work concerns final checks, documentation, screenshots and feedback fixes.
 
 ## AI usage
 
-Claude supplied most of the revised interface and backend code. ChatGPT/Codex reviewed files, explained implementation choices and guided troubleshooting while still explaining how things happen and why things happen.
+Claude supplied most of the revised interface and backend code. ChatGPT/Codex reviewed files, explained implementation choices and guided troubleshooting and deployment. Codex also directly committed later viewer fixes, logo changes, the CABALEN Home heading and Ferrari login integration. AI image editing was used to remove the Nissan logo's background.
 
-I provided the project requirements and wireframes, independently wrote the revised catalogue entries, gathered marketplace links and confirmed compatibility years with the shop. I manually applied the application changes, corrected filenames, scripts and test expectations, configured the local environment and ran the checks.
+I provided the project requirements and wireframes, independently wrote the revised catalogue entries, gathered marketplace links and confirmed compatibility years with the shop. I independently corrected filenames, package scripts and catalogue test expectations.
 
-See [AI-USAGE.md](AI-USAGE.md) for the assistance record and contribution details.
+I completed setup, database migration, deployment, model uploads and Git operations with AI guidance. I selected and supplied the logos and Ferrari model, checked the interface and reported problems. I personally created the three role accounts and deleted the previous account.
+
+Documentation updates were drafted with AI assistance. I reviewed the proposed information and requested that the existing format be preserved before applying the updates myself.
+
+See [AI-USAGE.md](AI-USAGE.md) for the assistance record, incorrect or incomplete AI guidance and contribution details.
