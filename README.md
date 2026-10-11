@@ -6,13 +6,15 @@ CAA AI Product Finder is a private web app for Cabalen Auto Aircon and authorize
 
 Editors and Admins can maintain products, shop links and compatibility records. Admins can also manage authorized accounts. There is no public registration.
 
-Project repository: https://github.com/Teywyl/caa-ai-product-finder
+Project repository: https://github.com/Teywyl/caa-ai-product-finder 
 
 Live website: https://teywyl.github.io/caa-ai-product-finder/
 
 API health: https://caa-product-finder-api.onrender.com/healthz
 
 Database readiness: https://caa-product-finder-api.onrender.com/readyz
+
+Demonstration video: https://drive.google.com/file/d/1DZ-Q6FQHfPUGiCPfDmcmF7NHz2CaTh_2/view?usp=drive_link
 
 Full application deployment: The frontend is hosted on GitHub Pages, the Express API on Render and the PostgreSQL database on Neon.
 
@@ -21,19 +23,23 @@ Full application deployment: The frontend is hosted on GitHub Pages, the Express
 Documentation updated on October 11, 2026.
 
 - The React client, Express API and PostgreSQL database are deployed and connected.
-- I successfully signed in through the deployed website.
 - The migrated database check showed 9 vehicle models and 27 products.
 - Three accounts were created for the Admin, Editor and Viewer roles, and the previous account was deleted.
+- I tested the complete deployed browsing flow and permissions for all three roles.
 - All nine catalogue model files and the Ferrari F40 login model are committed to the repository.
 - Viewer fixes were added for Honda City framing and S-Presso centering.
 - The brand initials were replaced with Honda, Nissan and Suzuki logos.
 - Home keeps the CABALEN heading after selecting a vehicle.
+- I checked every vehicle model and reviewed the mobile layouts.
+- I reviewed product details, marketplace links and compatibility restrictions.
+- I completed the review of model credits and license conditions.
+- The final demonstration link and private course-workspace pointer were added.
 - The active client uses the real API.
 - The Finder uses server-side keyword matching. Gemini is not connected.
 
-All 62 automated server tests passed with 0 failures, and the full frontend production build passed on October 4, 2026. Later visual changes received focused code checks. These results do not represent a new full test run after every change.
+All 62 automated server tests passed with 0 failures, and the full frontend production build passed on October 4, 2026. Later visual changes received focused code checks. These results do not represent a new full automated test run after every change.
 
-Final deployed workflow checks, role-permission checks, mobile review and updated screenshots remain to be completed.
+The final deployed checks were completed manually. Further feedback fixes were deferred because of the submission deadline.
 
 ## Setup and installation
 
@@ -107,7 +113,9 @@ Replace the example password with the local password chosen above. These instruc
 
 ### Create tables and load the catalogue
 
-Only against a new or disposable development database, run inside `server/`:
+The current seed file has malformed quotation marks in some compatibility source notes. Correct these before using it for a fresh database setup. The existing deployed database is separate from this source-file issue.
+
+After correcting the seed file, run inside `server/`, only against a new or disposable development database:
 
 ```bash
 npm run db:reset
@@ -116,8 +124,6 @@ npm run db:reset
 This creates the tables and loads the starting catalogue.
 
 **This command deletes and rebuilds the app's tables, including accounts. Do not run it against data you need to keep.**
-
-The current seed file has malformed quotation marks in some compatibility source notes. These need correction before using it for a fresh database setup. The existing deployed database is separate from this source-file issue.
 
 The database contains tables for:
 
@@ -228,6 +234,8 @@ Codespaces does not need to remain open for the deployed application. The Render
 
 The garage includes available models and decorative locked slots. Locked slots cannot be selected.
 
+Users can return to Home through the Home navigation or the clickable CAA logo. The Home heading remains CABALEN after a vehicle is selected.
+
 The current seed file contains:
 
 - 3 brands.
@@ -252,7 +260,9 @@ A product's presence in the catalogue does not establish its current stock avail
 
 Passwords are hashed with scrypt on the server. Protected API routes check the session and required role.
 
-Three accounts were created for the Admin, Editor and Viewer roles, and the previous account was deleted. Account information will be submitted privately through Canvas in a text file. Login credentials are not published in this repository.
+Three accounts were created for the Admin, Editor and Viewer roles, and the previous account was deleted. I manually tested the permissions of all three roles on the deployed application.
+
+Account information will be submitted privately through Canvas in a text file. Login credentials are not published in this repository.
 
 ### Finder
 
@@ -274,7 +284,9 @@ All nine catalogue model files are committed under `client/public/models/`. The 
 
 The login page uses the uploaded Ferrari F40 model. It includes credit to vecarz and a link to the model's CC BY-NC-SA 4.0 license.
 
-The models are visual references and do not establish parts compatibility. Large files can take time to download. Final checks of model displays, credits and license conditions remain part of the submission review.
+I checked every vehicle model and completed the review of model credits and license conditions.
+
+The models are visual references and do not establish parts compatibility. Large files can take time to download.
 
 ### Main API endpoints
 
@@ -331,7 +343,17 @@ Verified on October 4, 2026:
 
 The tests cover authentication, permissions, catalogue access, product management, account administration and compatibility-search behavior.
 
-Later viewer, branding and Ferrari login changes received focused code checks. Deployed login, the corrected CABALEN heading and the account changes were confirmed separately. A complete final test of all roles and deployed workflows is still pending.
+Later viewer, branding and Ferrari login changes received focused code checks. A new full automated test run was not completed after every later change.
+
+Final manual checks completed before submission:
+
+- The complete deployed browsing flow.
+- Admin, Editor and Viewer permissions.
+- Every vehicle model and the mobile layouts.
+- Product details, marketplace links and compatibility restrictions.
+- Model credits and license conditions.
+
+These manual checks are separate from the October 4 automated test results.
 
 ## Project structure
 
@@ -360,23 +382,42 @@ Later viewer, branding and Ferrari login changes received focused code checks. D
 
 ## Screenshots
 
-The screenshot below shows an earlier interface revision. Updated screenshots will be added after the remaining feedback fixes.
+## Screenshots
 
-![Earlier CAA product browser](docs/screenshot.png)
+### Login Page
+
+![Login page](docs/screenshots/login.png)
+
+### Home Page
+
+![Home page](docs/screenshots/home.png)
+
+### Car Brands
+
+![Home page](docs/screenshots/brands.png)
+
+### Car Models
+
+![Home page](docs/screenshots/models.png)
+
+### Product Details
+
+![Product details](docs/screenshots/product-details.png)
+
 
 ## Known issues and next steps
 
 - Correct the malformed quotation marks in some seed-file compatibility notes before running a fresh database setup.
-- Test the complete deployed workflow and permissions for all three roles.
-- Review product details, marketplace links and compatibility restrictions.
-- Verify every model's display, credit and license conditions.
-- Review frontend concerns and mobile layouts.
-- Replace outdated screenshots.
-- Complete the security checklist and current dependency checks.
-- Add the final demonstration link and update the private course-workspace pointer.
+- Address the remaining feedback in a future update. Further feedback fixes were deferred because of the submission deadline.
+- Complete the remaining secret-review and current dependency checks.
+- Review alternatives to storing the browser session token in localStorage.
+- Improve the login limiter so its state persists across API restarts.
+- Continue improving loading performance for large vehicle model files.
 - Keep Gemini integration as a stretch goal.
 
-The frontend, API and database are deployed. The remaining work concerns final checks, documentation, screenshots and feedback fixes.
+The frontend, API and database are deployed. The final manual workflow, permissions, model, mobile and catalogue checks were completed. The demonstration link and private course-workspace pointer were also updated.
+
+The application currently stores its browser session token in localStorage, and the login limiter uses in-memory state. These limitations and the security review are documented in [Security and privacy](docs/06-security-and-privacy.md).
 
 ## AI usage
 
@@ -385,6 +426,8 @@ Claude supplied most of the revised interface and backend code. ChatGPT/Codex re
 I provided the project requirements and wireframes, independently wrote the revised catalogue entries, gathered marketplace links and confirmed compatibility years with the shop. I independently corrected filenames, package scripts and catalogue test expectations.
 
 I completed setup, database migration, deployment, model uploads and Git operations with AI guidance. I selected and supplied the logos and Ferrari model, checked the interface and reported problems. I personally created the three role accounts and deleted the previous account.
+
+I completed the final manual checks of the deployed browsing flow, role permissions, vehicle models, mobile layouts, product information, marketplace links and model credits. I also added the demonstration link and updated the private course-workspace pointer.
 
 Documentation updates were drafted with AI assistance. I reviewed the proposed information and requested that the existing format be preserved before applying the updates myself.
 
