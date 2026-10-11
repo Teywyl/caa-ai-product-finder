@@ -891,7 +891,7 @@ INSERT INTO compatibility (
     2017,
     2026,
     'confirmed',
-    'CAA shop product list confirms compatibility for 2017–2026, as verified by the project owner on 2026-10-09. The marketplace listing title differs from this shop-confirmed range.''
+    'CAA shop product list confirms compatibility for 2017–2026, as verified by the project owner on 2026-10-09. The marketplace listing title differs from this shop-confirmed range.'''
   ),
   -- Suzuki Ertiga
   (
@@ -1041,7 +1041,7 @@ INSERT INTO compatibility (
     2001,
     2006,
     'confirmed',
-    ''CAA shop product list confirms compatibility for 2001–2006, as verified by the project owner on 2026-10-09. The supplied marketplace title states 2002–2006.''
+    'CAA shop product list confirms compatibility for 2001–2006, as verified by the project owner on 2026-10-09. The supplied marketplace title states 2002–2006.'
   );
  
 COMMIT;
