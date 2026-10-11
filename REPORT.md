@@ -115,3 +115,56 @@ The PostgreSQL container also failed to restart. I inspected its storage volume 
 - Keep Gemini integration as a stretch goal.
 
 The revised application worked locally during the confirmed checks. The complete hosted application was not finished.
+
+## Week of: October 5–11, 2026 Week 4
+
+## What changed this week
+
+- Deployed the PostgreSQL database to Neon and the Express API to Render.
+- Connected the GitHub Pages frontend to the hosted API. The deployed application now uses the real database instead of the earlier demo mode.
+- Checked the migrated database and confirmed that it contained 9 vehicle models and 27 products.
+- Updated the catalogue. The current seed contains 3 brands, 9 vehicle models, 27 products, 46 marketplace links and 31 compatibility records. All 31 compatibility records are now marked confirmed.
+- Uploaded all nine catalogue model files to the repository. The CR-V file was reduced so it could be uploaded.
+- Applied viewer corrections for Honda City framing and Suzuki S-Presso centering.
+- Replaced the brand initials with Honda, Nissan and Suzuki logos. Removed the Nissan logo background and adjusted the Honda and Suzuki logo sizes.
+- Fixed the Home heading so it continues to show CABALEN after selecting a vehicle. Users can return through Home or the CAA logo.
+- Replaced the login vehicle preview with the Ferrari F40 model and added its author and license credit.
+- Created three accounts for the Admin, Editor and Viewer roles and deleted the previous account.
+- Tested the complete deployed browsing flow and the permissions of all three roles.
+- Checked every vehicle model and reviewed the mobile layouts.
+- Reviewed product details, marketplace links and compatibility restrictions.
+- Completed the review of model credits and license conditions.
+- Added the final demonstration link and updated the private course-workspace pointer.
+- Updated the README, AI usage record, security documentation and weekly reports to reflect the final application and my contributions.
+- Prepared the README screenshot section for the Login page, Home page and Product details page.
+
+## Why
+
+I wanted the application to work through a live website without depending on an open Codespace. Hosting the frontend, API and database separately allowed authorized users to sign in and browse the actual catalogue.
+
+I also wanted the final documentation to explain what the application currently does. The Finder uses keyword matching, and Gemini is not connected. I updated the AI usage record to distinguish my independent work, the tasks I completed with AI guidance and the code changes made by AI.
+
+The three role accounts let me check browsing, catalogue management and account administration separately. Their login information will be submitted privately through Canvas in a text file.
+
+## What broke or what I got stuck on
+
+I had difficulty setting up the hosted database connection and understanding the deployment settings. I followed AI guidance to configure Neon and Render, migrate the database and connect the frontend.
+
+The vehicle models initially did not appear on the deployed website because the files were only in Codespaces and had not been pushed to the repository. Uploading and pushing the model files made them available to the deployed client.
+
+The CR-V model was too large for a normal GitHub file upload. I used an AI-assisted reduction script and uploaded the smaller file.
+
+Honda City had a framing problem, and Suzuki S-Presso was not centered. The first S-Presso correction did not fully solve the problem. I reported this and continued checking the later correction.
+
+A Git push was rejected because the remote repository contained changes that were not in Codespaces. Pulling the remote changes with rebase allowed me to push my local changes.
+
+Some AI guidance was incorrect or incomplete. This included agreeing that the repository documented Vercel deployment before checking it and repeating a test correction I had already made. I recorded these examples in AI-USAGE.md.
+
+The current seed file also has malformed quotation marks in some compatibility source notes. These still need correction before using the file to initialize a fresh database. The existing deployed database is separate from this issue.
+
+Further feedback fixes were deferred because of the submission deadline.
+
+## What is left
+
+- Address the remaining feedback in a future update.
+- Improve loading performance for large vehicle models in a future update.
