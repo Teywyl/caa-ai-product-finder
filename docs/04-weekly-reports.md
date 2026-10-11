@@ -1,5 +1,9 @@
 # Weekly Increment Report
 
+### NOTE
+
+These weekly reports were added on October 11, 2026. The weekly progress entries are recorded in [REPORT.md](../REPORT.md), and the related commits are available in the repository history.
+
 ## Week of: September 14-20, 2026 — Week 1
 
 ## What changed this week
@@ -115,6 +119,3 @@ The PostgreSQL container also failed to restart. I inspected its storage volume 
 - Keep Gemini integration as a stretch goal.
 
 The revised application worked locally during the confirmed checks. The complete hosted application was not finished.
-
-
-### NOTE: This whole weekly report is only pasted 10/11/26. commits everyweek are in [REPORT.md](REPORT.md)
