@@ -1,5 +1,7 @@
 # CAA AI Product Finder
 
+[![AI-assisted development](https://img.shields.io/badge/Development-AI%20assisted-blue)](AI-USAGE.md)
+
 ## Overview
 
 CAA AI Product Finder is a private web app for Cabalen Auto Aircon and authorized users. Users select a vehicle brand, model and year to find products with confirmed compatibility records and open the shop's marketplace listings.
