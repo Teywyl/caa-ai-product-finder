@@ -9,7 +9,7 @@ CAA AI Product Finder is a private web app for Cabalen Auto Aircon and authorize
 Editors and Admins can maintain products, shop links and compatibility records. Admins can also manage authorized accounts. There is no public registration.
 
 Project repository: https://github.com/Teywyl/caa-ai-product-finder 
-
+```
 Live website: https://teywyl.github.io/caa-ai-product-finder/
 
 API health: https://caa-product-finder-api.onrender.com/healthz
@@ -19,7 +19,7 @@ Database readiness: https://caa-product-finder-api.onrender.com/readyz
 Demonstration video: https://drive.google.com/file/d/1DZ-Q6FQHfPUGiCPfDmcmF7NHz2CaTh_2/view?usp=drive_link
 
 Full application deployment: The frontend is hosted on GitHub Pages, the Express API on Render and the PostgreSQL database on Neon.
-
+```
 ## Current status
 
 Documentation updated on October 11, 2026.
