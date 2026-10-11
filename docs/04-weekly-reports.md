@@ -115,3 +115,6 @@ The PostgreSQL container also failed to restart. I inspected its storage volume 
 - Keep Gemini integration as a stretch goal.
 
 The revised application worked locally during the confirmed checks. The complete hosted application was not finished.
+
+
+### NOTE: This whole weekly report is only pasted 10/11/26. commits everyweek are in [REPORT.md](REPORT.md)
