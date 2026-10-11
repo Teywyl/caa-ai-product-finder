@@ -1,6 +1,6 @@
 # CAA AI Product Finder
 
-[![AI-assisted development](https://img.shields.io/badge/Development-AI%20assisted-blue)](AI-USAGE.md)
+[![AI-assisted development](https://img.shields.io/badge/Development-AI%20assisted-blue)](AI-USAGE.md) [![ChatGPT](https://img.shields.io/badge/AI%20assistance-ChatGPT-10A37F)](AI-USAGE.md) [![Claude](https://img.shields.io/badge/AI%20assistance-Claude-D97757)](AI-USAGE.md)
 
 ## Overview
 
