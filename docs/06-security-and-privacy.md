@@ -1,6 +1,6 @@
 # Security and privacy checklist
 
-Reviewed on October 11, 2026, against the current application code and the manual checks I completed.
+Reviewed on October 11, 2026, against the current application code, deployed checks and automated test results.
 
 Checked items describe implemented controls or confirmed actions. Unchecked items still need verification. This checklist is not a claim that the application has passed a complete security audit.
 
@@ -9,9 +9,13 @@ The repository is public, but the application requires an authorized account. Da
 ## Before the first push
 
 - [x] `.gitignore` excludes `.env`, other private environment files, database dumps and log files.
-- [ ] Complete the final tracked-file check for private environment files and keys.
-- [x] Committed `.env.example` files contain example configuration values rather than the deployed credentials.
+- [x] The October 11 tracked-file check found no matching private environment files or key filenames, excluding `.env.example`.
+- [x] Committed `.env.example` files contain example configuration values rather than deployed credentials.
 - [ ] Complete the final secret review of repository contents, history, screenshots and the demo recording.
+- [ ] Review a recent GitHub Actions deployment log and inspect the uploaded build artifact for exposed secrets.
+- [ ] Confirm GitHub secret scanning and push protection settings.
+
+The tracked-file check examined filenames. It does not establish that every file and historical commit is free of secrets.
 
 The deployed database connection belongs in the API hosting settings. Client variables beginning with `VITE_` are included in the public build and must not contain secrets.
 
@@ -22,17 +26,26 @@ Deleting a committed secret does not remove it from repository history. If a cre
 ## The application
 
 - [x] Database queries handling user input use SQL parameters. Product IDs, model IDs, years, account information and edited values are passed separately from the SQL text.
-- [x] Input validation runs on the server. Product, compatibility, account and login fields have validation rules and length limits.
+- [x] Input validation runs on the server. Product, compatibility, account, login and Finder fields have validation rules and length limits.
 - [x] CORS uses an allowed-origin list from `CORS_ORIGINS`; it does not allow every browser origin.
+- [x] The deployed API approved `https://teywyl.github.io` and did not approve `https://example.com` during the October 11 checks.
 - [x] The deployed API was configured with `NODE_ENV=production`. Unexpected errors return a general message rather than a stack trace in the response body.
-- [x] Helmet is installed and applied in the Express application.
-- [x] Failed login attempts are limited by email and IP address. The current default blocks further attempts after five failures within a 15-minute window.
+- [x] Helmet is installed and applied. Deployed responses included Content-Security-Policy, X-Content-Type-Options and X-Frame-Options headers.
+- [x] Failed login attempts are limited by email and IP address. The automated test for blocking the sixth attempt after five failures passed on October 11.
 - [x] Passwords are hashed with scrypt and a random salt. The account responses do not return password hashes.
 - [x] Protected API routes require a valid session. Product and compatibility changes require Editor or Admin access; account administration requires Admin access.
+- [x] A deployed request to `/api/products` without a session returned `401` with “Sign in to continue.”
+- [x] Server and client dependency audits reported 0 known vulnerabilities after the October 11 dependency fixes.
+- [x] All 62 server tests passed on October 11, with 0 failures and 0 cancellations.
+- [x] The frontend production build passed on October 11 with 60 modules transformed.
 
 The app uses a shared shop catalogue rather than separate privately owned product records. Authorization is therefore enforced through server-side roles instead of a `user_id` ownership condition on every catalogue query.
 
-I completed manual checks of the deployed browsing flow and permissions for Admin, Editor and Viewer. These checks are separate from the 62 passing automated server tests recorded on October 4.
+I completed manual checks of the deployed browsing flow and permissions for Admin, Editor and Viewer. The automated tests also cover authentication, permissions, validation, account administration and compatibility-search behavior. These checks do not replace a complete security audit.
+
+The server audit initially reported one critical vulnerability in `proxy-addr`. I ran `npm audit fix` without `--force`. Both server and client then reported 0 known vulnerabilities. The dependency lockfile changes were committed and pushed, and successful GitHub Pages and Render deployments were confirmed.
+
+The server tests initially could not connect because the local PostgreSQL container was stopped. After restarting it, the tests exposed malformed quotation marks in two seed-file notes. I corrected the notes, pulled the changes into Codespaces and reran the tests successfully.
 
 Session tokens are randomly generated, and their SHA-256 hashes are stored in the database. Sessions expire after the configured duration, normally 12 hours. Signing out removes the server session.
 
@@ -58,6 +71,14 @@ The application opens external marketplace listings. Purchases and payment detai
 
 I will keep grading credentials in the private Canvas submission. Public screenshots should not show passwords, database connection strings, session tokens or private hosting settings.
 
+The earlier repository review identified personal information in historical file versions and commit metadata. A complete history cleanup and repeat review have not been confirmed.
+
 ## What to write in your journal
 
-The main security risk in my project is exposing credentials because the repository is public and the app has accounts. I kept private environment files out of Git, configured the database connection through the hosting settings and used hashed passwords with server-side account permissions. I created three role accounts and deleted the previous account, and I will submit the login information privately through Canvas. I also recognize the limits of the current implementation: session tokens are stored in localStorage, the login limiter resets when the server restarts, and the final secret and dependency checks are not yet complete. I will not describe these unfinished checks as passed.
+The main security risk in my project is exposing credentials because the repository is public and the app has accounts. I kept private environment files out of Git, configured the database connection through the hosting settings and used hashed passwords with server-side account permissions.
+
+On October 11, I checked tracked private filenames, deployed security headers, signed-out API access and allowed browser origins. I fixed the dependency audit findings, and both the server and client reported 0 known vulnerabilities afterward. The frontend build passed, and all 62 server tests passed after I restarted the local database and corrected the seed-file quotation marks.
+
+I created three role accounts and deleted the previous account. I also manually checked their permissions. I will submit the login information privately through Canvas.
+
+Some checks are still unfinished, including the complete secret and Git-history review, deployment logs, build artifacts, GitHub security settings and Neon access permissions. Session tokens are also stored in localStorage, and the login limiter resets when the server restarts. I will record these limitations instead of describing the whole application as fully secure.
